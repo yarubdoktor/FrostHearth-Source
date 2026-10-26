@@ -38,11 +38,17 @@ func _open_venture_window(target: Dictionary) -> void:
 	v.add_child(hint)
 	# صفوف الجنود داخل حاوية تمرير محدودة الارتفاع — حتى لا تتجاوز النافذة شاشة الهاتف
 	var scroll := ScrollContainer.new()
-	scroll.custom_minimum_size = Vector2(0, 150)
+	scroll.custom_minimum_size = Vector2(0, 112)
 	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	v.add_child(scroll)
-	var list := VBoxContainer.new()
+	# صفّان جانبيان يقللان ارتفاع قائمة الجنود مع بقاء جميع الأنواع قابلة للتعديل.
+	var list := GridContainer.new()
+	list.columns = 2
 	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	list.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	list.add_theme_constant_override("h_separation", 8)
+	list.add_theme_constant_override("v_separation", 4)
 	scroll.add_child(list)
 	vent_spins = {}
 	var any_troops := false
@@ -52,14 +58,19 @@ func _open_venture_window(target: Dictionary) -> void:
 			continue
 		any_troops = true
 		var row := HBoxContainer.new()
+		row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		list.add_child(row)
 		var parts: PackedStringArray = String(k).split("_")
 		var nm := "%s • %s" % [Defs.TROOPS[parts[0]]["name"], Defs.TIER_NAMES[int(parts[1])]]
 		var l := Label.new()
-		l.text = "%s (متاح %d)" % [nm, n]
+		l.text = "%s (%d)" % [nm, n]
+		l.add_theme_font_size_override("font_size", 13)
+		l.custom_minimum_size.x = 96
 		l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		row.add_child(l)
 		var sp := SpinBox.new()
+		sp.custom_minimum_size.x = 82
+		sp.add_theme_font_size_override("font_size", 13)
 		sp.max_value = n
 		sp.min_value = 0
 		sp.step = 1
@@ -148,7 +159,7 @@ func _center_vent_win() -> void:
 	## توسيط فعلي بعد اكتمال المحتوى — النافذة تنمو للأسفل من نقطة الوسط فتغطي أزرار التنقل السفلية
 	if vent_win == null or ui == null:
 		return
-	var h := minf(vent_win.size.y, ui.size.y - 96.0)
+	var h := minf(vent_win.size.y, minf(ui.size.y - 96.0, 640.0))
 	vent_win.size = Vector2(maxf(vent_win.size.x, 440.0), h)
 	vent_win.position = (ui.size - vent_win.size) * 0.5
 
