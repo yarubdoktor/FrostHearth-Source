@@ -37,12 +37,18 @@ func _open_venture_window(target: Dictionary) -> void:
 	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	v.add_child(hint)
 	# صفوف الجنود داخل حاوية تمرير محدودة الارتفاع — حتى لا تتجاوز النافذة شاشة الهاتف
+	# حاوية ارتفاعها ثابت؛ ScrollContainer وحده قد يرفع الحد الأدنى لارتفاعه إلى ارتفاع كل صفوف الجنود.
+	var troop_viewport := Control.new()
+	troop_viewport.custom_minimum_size = Vector2(0, 88)
+	troop_viewport.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	troop_viewport.clip_contents = true
+	v.add_child(troop_viewport)
 	var scroll := ScrollContainer.new()
-	scroll.custom_minimum_size = Vector2(0, 88)
-	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	scroll.size_flags_vertical = Control.SIZE_FILL
-	v.add_child(scroll)
-	# صفّان جانبيان يقللان ارتفاع قائمة الجنود مع بقاء جميع الأنواع قابلة للتعديل.
+	scroll.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+	troop_viewport.add_child(scroll)
+	# شبكة مضغوطة لعرض جميع الأنواع مع تمرير رأسي عند الحاجة.
 	var list := GridContainer.new()
 	list.columns = 3
 	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
