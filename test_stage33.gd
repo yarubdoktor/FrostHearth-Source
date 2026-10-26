@@ -84,7 +84,7 @@ func _ready() -> void:
 	# 4) تعبئة الجنود بنسبة
 	var avail := {"shield_1": 50, "spear_1": 30, "bow_1": 20}
 	var f50 := WarRules.quick_fill(avail, 0.5, 9999)
-	check(_sum(f50) == 50, "quick fill 50% of 100 = 50 troops (got %d)" % _sum(f50))
+	check(_sum(f50) == 50, "quick fill 50%% of 100 = 50 troops (got %d)" % _sum(f50))
 	var f_cap := WarRules.quick_fill(avail, 1.0, 60)
 	check(_sum(f_cap) == 60, "quick fill respects the march cap (got %d)" % _sum(f_cap))
 	var within := true
