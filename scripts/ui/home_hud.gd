@@ -195,6 +195,10 @@ static func _left_column(city: Node, ui: Control) -> void:
 	var collect: Button = city._icon_button("gift", "الجمع", city._collect_all)
 	collect.custom_minimum_size = Vector2(LEFT_W, 62)
 	left.add_child(collect)
+	# Stage 38: competition is an additional destination; the original world map remains intact.
+	var competition: Button = city._icon_button("crown", "المنافسة", func(): city.get_tree().change_scene_to_file("res://competition_hub.tscn"))
+	competition.custom_minimum_size = Vector2(LEFT_W, 62)
+	left.add_child(competition)
 	city.dev_btn = city._icon_button("star", "أدوات المطور", city._dev_panel)
 	city.dev_btn.custom_minimum_size = Vector2(LEFT_W, 62)
 	city.dev_btn.visible = false
