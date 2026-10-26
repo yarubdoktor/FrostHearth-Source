@@ -99,7 +99,7 @@ func _ready() -> void:
 	check(is_equal_approx(WarRules.intel_error(0), WarRules.INTEL_ERR_CAP), "no scout tower: intel error is capped, not 100%")
 	check(WarRules.intel_error(1) <= WarRules.intel_error(0) and WarRules.intel_error(20) == 0.0, "scout tower improves intel down to exact")
 	var rg := WarRules.enemy_range(20, 0.3)
-	check(rg.x == 14 and rg.y == 26, "enemy range ±30%% of 20 = 14..26 (got %d..%d)" % [rg.x, rg.y])
+	check(rg.x == 14 and rg.y == 26, "enemy range ±30 percent of 20 = 14..26 (got %d..%d)" % [rg.x, rg.y])
 	check(WarRules.power_of({"shield_1": 10}) == int(round(10.0 * Defs.troop_power("shield", 1))), "power_of matches troop_power")
 
 	# 6) حراس الهدف مصدر واحد للمعركة والمعاينة
