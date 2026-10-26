@@ -15,12 +15,12 @@ func _setup_env() -> void:
 	env.tonemap_white = 1.1
 	env.fog_enabled = true
 	env.glow_enabled = true
-	env.glow_intensity = 0.4
-	env.glow_hdr_threshold = 1.45
+	env.glow_intensity = 0.46
+	env.glow_hdr_threshold = 1.35
 	env.glow_blend_mode = Environment.GLOW_BLEND_MODE_SOFTLIGHT
 	env.adjustment_enabled = true
-	env.adjustment_saturation = 1.04
-	env.adjustment_contrast = 1.03
+	env.adjustment_saturation = 1.08
+	env.adjustment_contrast = 1.04
 	var we := WorldEnvironment.new()
 	we.environment = env
 	add_child(we)
@@ -241,6 +241,9 @@ func _spawn_all() -> void:
 	var rm := StandardMaterial3D.new()
 	rm.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	rm.albedo_color = Color("ffd36b")
+	rm.emission_enabled = true
+	rm.emission = Color("ffbf4f")
+	rm.emission_energy_multiplier = 0.28
 	rm.no_depth_test = true
 	sel_ring.material_override = rm
 	sel_ring.visible = false

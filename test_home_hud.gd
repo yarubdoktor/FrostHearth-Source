@@ -1,5 +1,7 @@
 extends Node
 ## اختبار الشاشة الرئيسية الجديدة (2ب) — من داخل مشهد المدينة الفعلي
+
+const UI := preload("res://scripts/ui_kit.gd")
 ## التشغيل: godot --headless --path . res://test_home_hud.tscn
 
 var checks := 0
@@ -33,6 +35,10 @@ func _ready() -> void:
 	check(city.res_chips.size() == 4 and city.gem_label != null and city.aurora_label != null, "resource chips + gems + aurora exist")
 	check(city.temp_label != null and city.power_label != null and city.pop_label != null and city.trust_label != null, "temperature, power, population, trust chips exist")
 	check(city.avatar_btn != null, "profile avatar button exists")
+	var avatar_style: StyleBox = city.avatar_btn.get_theme_stylebox("normal")
+	check(avatar_style is StyleBoxTexture, "primary buttons use the nine-slice gradient skin")
+	var panel_style := UI.style(Color(0.04, 0.08, 0.14, 0.9))
+	check(panel_style.anti_aliasing and panel_style.shadow_size >= 9, "shared panels use anti-aliased edges and deeper elevation")
 	check(city.task_btn != null and city.task_title != null, "task strip exists")
 	check(city.dev_btn != null and not city.dev_btn.visible, "dev button exists and hidden by default")
 	check(city.builder_rows.size() == Game.MAX_BUILDERS, "builder rows match max builders (%d)" % city.builder_rows.size())

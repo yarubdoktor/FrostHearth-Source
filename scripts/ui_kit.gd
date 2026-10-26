@@ -46,11 +46,20 @@ static func _grad_button_tex(top: Color, bottom: Color, border_col: Color) -> Im
 			var t := float(y) / float(S - 1)
 			var c := top.lerp(bottom, t)
 			if d > -2.2:
-				c = border_col            # ححد لامع حول الحافة
+				c = border_col            # حد خارجي واضح
 			elif y < 10:
 				c = c.lightened(0.10)     # لمعة علوية خفيفة
 			elif y > S - 6:
-				c = c.darkened(0.10)     # ظل سفلي خفيف
+				c = c.darkened(0.10)      # قاعدة أعمق قليلاً
+			# انعكاس قطري ناعم يعطي الزر إحساساً معدنياً دون تغيير أبعاده.
+			if d < -2.2 and d > -5.0:
+				c = c.lerp(border_col.lightened(0.12), 0.18)
+			if y < 28:
+				var band := 1.0 - clampf(absf(float(x) - float(y) * 0.32 - 18.0) / 10.0, 0.0, 1.0)
+				var sheen := band * 0.10 * (1.0 - float(y) / 28.0)
+				c = c.lerp(top.lightened(0.18), sheen)
+			if d < -5.0 and y > S - 9:
+				c = c.darkened(0.06)
 			var a: float = clampf(0.5 - d, 0.0, 1.0)
 			img.set_pixel(x, y, Color(c.r, c.g, c.b, a))
 	var tex := ImageTexture.create_from_image(img)
@@ -78,10 +87,13 @@ static func style(bg: Color, radius: int = 14, border: Color = Color(1, 1, 1, 0.
 	s.content_margin_top = pad - 4
 	s.content_margin_bottom = pad - 4
 	s.border_color = border
-	s.set_border_width_all(2)
-	s.shadow_color = Color(0, 0, 0, 0.35)
-	s.shadow_size = 6
-	s.shadow_offset = Vector2(0, 3)
+	s.set_border_width_all(1)
+	s.border_blend = true
+	s.anti_aliasing = true
+	s.anti_aliasing_size = 0.7
+	s.shadow_color = Color(0, 0, 0, 0.42)
+	s.shadow_size = 9
+	s.shadow_offset = Vector2(0, 4)
 	return s
 
 static func theme() -> Theme:
@@ -115,6 +127,9 @@ static func button(text: String, cb: Callable, kind: String = "dark", h: int = 5
 	for k in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color"]:
 		b.add_theme_color_override(k, txt)
 	b.add_theme_color_override("font_disabled_color", Color(0.62, 0.65, 0.70))
+	b.add_theme_color_override("font_shadow_color", Color(0.01, 0.025, 0.05, 0.62))
+	b.add_theme_constant_override("shadow_offset_x", 0)
+	b.add_theme_constant_override("shadow_offset_y", 1)
 	b.pressed.connect(cb)
 	b.pressed.connect(func() -> void: Sound.ui_click())
 	return b
@@ -124,6 +139,9 @@ static func label(text: String, size: int = 20, color: Color = Color.WHITE, alig
 	l.text = text
 	l.add_theme_font_size_override("font_size", size)
 	l.add_theme_color_override("font_color", color)
+	l.add_theme_color_override("font_shadow_color", Color(0.01, 0.025, 0.05, 0.32))
+	l.add_theme_constant_override("shadow_offset_x", 0)
+	l.add_theme_constant_override("shadow_offset_y", 1)
 	l.horizontal_alignment = align
 	return l
 

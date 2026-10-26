@@ -154,7 +154,7 @@ func _label3d(text: String, pos: Vector3, size: int, color: Color) -> Label3D:
 	l.text = text
 	l.font = font
 	l.font_size = size
-	l.outline_size = 14
+	l.outline_size = maxi(4, int(size * 0.20))
 	l.modulate = color
 	l.outline_modulate = Color(0.04, 0.08, 0.14, 0.95)
 	l.billboard = BaseMaterial3D.BILLBOARD_ENABLED

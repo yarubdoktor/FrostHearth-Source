@@ -193,7 +193,7 @@ func _label3d(text: String, pos: Vector3, size: int, color: Color, range_end: fl
 	l.text = text
 	l.font = font
 	l.font_size = size
-	l.outline_size = int(size * 0.22)
+	l.outline_size = maxi(4, int(size * 0.18))
 	l.modulate = color
 	l.outline_modulate = Color(0.04, 0.08, 0.14, 0.9)
 	l.billboard = BaseMaterial3D.BILLBOARD_ENABLED
@@ -231,8 +231,14 @@ func _style(bg: Color, radius: int = 14) -> StyleBoxFlat:
 	s.content_margin_right = 16
 	s.content_margin_top = 8
 	s.content_margin_bottom = 8
-	s.border_color = Color(1, 1, 1, 0.12)
+	s.border_color = Color(0.72, 0.84, 0.96, 0.20)
 	s.set_border_width_all(1)
+	s.border_blend = true
+	s.anti_aliasing = true
+	s.anti_aliasing_size = 0.7
+	s.shadow_color = Color(0.005, 0.015, 0.03, 0.38)
+	s.shadow_size = 8
+	s.shadow_offset = Vector2(0, 3)
 	return s
 
 
@@ -240,12 +246,16 @@ func _button(text: String, cb: Callable, accent := false) -> Button:
 	var b := Button.new()
 	b.text = text
 	b.custom_minimum_size = Vector2(0, 56)
+	b.focus_mode = Control.FOCUS_NONE
 	b.add_theme_stylebox_override("normal", _style(Color("e0a33a") if accent else Color(0.07, 0.12, 0.2, 0.86)))
 	b.add_theme_stylebox_override("hover", _style(Color("f0b54a") if accent else Color(0.12, 0.2, 0.32, 0.92)))
 	b.add_theme_stylebox_override("pressed", _style(Color("c78a25") if accent else Color(0.04, 0.08, 0.14, 0.95)))
 	b.add_theme_color_override("font_color", Color("1a1206") if accent else Color.WHITE)
 	b.add_theme_color_override("font_hover_color", Color("1a1206") if accent else Color.WHITE)
 	b.add_theme_color_override("font_pressed_color", Color("1a1206") if accent else Color.WHITE)
+	b.add_theme_color_override("font_shadow_color", Color(0.01, 0.025, 0.05, 0.55))
+	b.add_theme_constant_override("shadow_offset_x", 0)
+	b.add_theme_constant_override("shadow_offset_y", 1)
 	b.pressed.connect(cb)
 	b.pressed.connect(func() -> void: Sound.ui_click())
 	return b
