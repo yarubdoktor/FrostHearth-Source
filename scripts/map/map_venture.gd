@@ -16,7 +16,7 @@ func _open_venture_window(target: Dictionary) -> void:
 	vent_win = _panel(Control.PRESET_CENTER)
 	vent_win.custom_minimum_size = Vector2(440, 0)
 	var v := VBoxContainer.new()
-	v.add_theme_constant_override("separation", 6)
+	v.add_theme_constant_override("separation", 4)
 	vent_win.add_child(v)
 	var title := Label.new()
 	var tname := "المنفث الحراري"
@@ -38,15 +38,15 @@ func _open_venture_window(target: Dictionary) -> void:
 	v.add_child(hint)
 	# صفوف الجنود داخل حاوية تمرير محدودة الارتفاع — حتى لا تتجاوز النافذة شاشة الهاتف
 	var scroll := ScrollContainer.new()
-	scroll.custom_minimum_size = Vector2(0, 112)
+	scroll.custom_minimum_size = Vector2(0, 88)
 	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.size_flags_vertical = Control.SIZE_FILL
 	v.add_child(scroll)
 	# صفّان جانبيان يقللان ارتفاع قائمة الجنود مع بقاء جميع الأنواع قابلة للتعديل.
 	var list := GridContainer.new()
 	list.columns = 2
 	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	list.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	list.size_flags_vertical = Control.SIZE_FILL
 	list.add_theme_constant_override("h_separation", 8)
 	list.add_theme_constant_override("v_separation", 4)
 	scroll.add_child(list)
@@ -64,13 +64,13 @@ func _open_venture_window(target: Dictionary) -> void:
 		var nm := "%s • %s" % [Defs.TROOPS[parts[0]]["name"], Defs.TIER_NAMES[int(parts[1])]]
 		var l := Label.new()
 		l.text = "%s (%d)" % [nm, n]
-		l.add_theme_font_size_override("font_size", 13)
+		l.add_theme_font_size_override("font_size", 12)
 		l.custom_minimum_size.x = 96
 		l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		row.add_child(l)
 		var sp := SpinBox.new()
-		sp.custom_minimum_size.x = 82
-		sp.add_theme_font_size_override("font_size", 13)
+		sp.custom_minimum_size = Vector2(76, 32)
+		sp.add_theme_font_size_override("font_size", 12)
 		sp.max_value = n
 		sp.min_value = 0
 		sp.step = 1
@@ -90,13 +90,20 @@ func _open_venture_window(target: Dictionary) -> void:
 	for pr in [[0.25, "٢٥٪"], [0.5, "٥٠٪"], [0.75, "٧٥٪"], [1.0, "الأقصى"]]:
 		var frac: float = pr[0]
 		var qb := _button(str(pr[1]), func(): _fill_fraction(frac))
+		qb.custom_minimum_size.y = 38
+		qb.add_theme_font_size_override("font_size", 13)
 		qb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		qh.add_child(qb)
 	var rec := _button("توصية", func(): _suggest_fill(), true)
+	rec.custom_minimum_size.y = 38
+	rec.add_theme_font_size_override("font_size", 13)
 	rec.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	rec.tooltip_text = "أقل قوة تحقق فرصة نصر جيدة ضمن حجم المسيرة المسموح"
 	qh.add_child(rec)
-	qh.add_child(_button("صفر", func(): _fill_fraction(0.0)))
+	var zero_btn := _button("صفر", func(): _fill_fraction(0.0))
+	zero_btn.custom_minimum_size.y = 38
+	zero_btn.add_theme_font_size_override("font_size", 13)
+	qh.add_child(zero_btn)
 	vent_summary = Label.new()
 	vent_summary.add_theme_font_size_override("font_size", 15)
 	vent_summary.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -121,6 +128,8 @@ func _open_venture_window(target: Dictionary) -> void:
 	for fid in Defs.FORMATION_ORDER:
 		var fd: Dictionary = Defs.FORMATIONS[fid]
 		var fb := _button(fd["name"], func(): _pick_formation(String(fid)))
+		fb.custom_minimum_size.y = 38
+		fb.add_theme_font_size_override("font_size", 13)
 		fb.toggle_mode = true
 		fb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		fb.tooltip_text = str(fd["desc"])
@@ -139,8 +148,13 @@ func _open_venture_window(target: Dictionary) -> void:
 	var send := _button("إرسال الفرقة", func(): _send_venture(), true)
 	send.disabled = not any_troops
 	vent_send_btn = send
+	send.custom_minimum_size.y = 38
+	send.add_theme_font_size_override("font_size", 13)
 	hb.add_child(send)
-	hb.add_child(_button("إلغاء", _close_vent_window))
+	var cancel_btn := _button("إلغاء", _close_vent_window)
+	cancel_btn.custom_minimum_size.y = 38
+	cancel_btn.add_theme_font_size_override("font_size", 13)
+	hb.add_child(cancel_btn)
 	ui_blockers.append(vent_win)
 	if any_troops:
 		_suggest_fill()   # يبدأ باقتراح أقل قوة تحقق فرصة نصر جيدة؛ وللاعب تعديلها بحرية
@@ -159,7 +173,7 @@ func _center_vent_win() -> void:
 	## توسيط فعلي بعد اكتمال المحتوى — النافذة تنمو للأسفل من نقطة الوسط فتغطي أزرار التنقل السفلية
 	if vent_win == null or ui == null:
 		return
-	var h := minf(vent_win.size.y, minf(ui.size.y - 96.0, 640.0))
+	var h := minf(vent_win.size.y, minf(ui.size.y - 112.0, 620.0))
 	vent_win.size = Vector2(maxf(vent_win.size.x, 440.0), h)
 	vent_win.position = (ui.size - vent_win.size) * 0.5
 
