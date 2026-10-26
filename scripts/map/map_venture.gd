@@ -44,7 +44,7 @@ func _open_venture_window(target: Dictionary) -> void:
 	v.add_child(scroll)
 	# صفّان جانبيان يقللان ارتفاع قائمة الجنود مع بقاء جميع الأنواع قابلة للتعديل.
 	var list := GridContainer.new()
-	list.columns = 2
+	list.columns = 3
 	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	list.size_flags_vertical = Control.SIZE_FILL
 	list.add_theme_constant_override("h_separation", 8)
@@ -64,12 +64,13 @@ func _open_venture_window(target: Dictionary) -> void:
 		var nm := "%s • %s" % [Defs.TROOPS[parts[0]]["name"], Defs.TIER_NAMES[int(parts[1])]]
 		var l := Label.new()
 		l.text = "%s (%d)" % [nm, n]
+		l.clip_text = true
 		l.add_theme_font_size_override("font_size", 12)
-		l.custom_minimum_size.x = 96
+		l.custom_minimum_size.x = 54
 		l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		row.add_child(l)
 		var sp := SpinBox.new()
-		sp.custom_minimum_size = Vector2(76, 32)
+		sp.custom_minimum_size = Vector2(60, 30)
 		sp.add_theme_font_size_override("font_size", 12)
 		sp.max_value = n
 		sp.min_value = 0
@@ -173,7 +174,7 @@ func _center_vent_win() -> void:
 	## توسيط فعلي بعد اكتمال المحتوى — النافذة تنمو للأسفل من نقطة الوسط فتغطي أزرار التنقل السفلية
 	if vent_win == null or ui == null:
 		return
-	var h := minf(vent_win.size.y, minf(ui.size.y - 112.0, 620.0))
+	var h := minf(vent_win.size.y, minf(ui.size.y - 112.0, 600.0))
 	vent_win.size = Vector2(maxf(vent_win.size.x, 440.0), h)
 	vent_win.position = (ui.size - vent_win.size) * 0.5
 
