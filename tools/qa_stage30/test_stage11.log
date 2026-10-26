@@ -1,0 +1,55 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PASS: new game selects default skin
+PASS: invalid skin identifiers fall back safely
+PASS: asset path is catalog controlled
+PASS: picker starts hidden
+PASS: preview world is isolated from playable map
+PASS: frontier/me retains city footprint
+PASS: frontier/me fits below fog plane
+PASS: frontier/ally retains city footprint
+PASS: frontier/ally fits below fog plane
+PASS: frontier/enemy retains city footprint
+PASS: frontier/enemy fits below fog plane
+PASS: frontier/neutral retains city footprint
+PASS: frontier/neutral fits below fog plane
+PASS: forge/me retains city footprint
+PASS: forge/me fits below fog plane
+PASS: forge/ally retains city footprint
+PASS: forge/ally fits below fog plane
+PASS: forge/enemy retains city footprint
+PASS: forge/enemy fits below fog plane
+PASS: forge/neutral retains city footprint
+PASS: forge/neutral fits below fog plane
+PASS: aurora/me retains city footprint
+PASS: aurora/me fits below fog plane
+PASS: aurora/ally retains city footprint
+PASS: aurora/ally fits below fog plane
+PASS: aurora/enemy retains city footprint
+PASS: aurora/enemy fits below fog plane
+PASS: aurora/neutral retains city footprint
+PASS: aurora/neutral fits below fog plane
+PASS: picker opens
+PASS: actual preview button selects forge skin
+PASS: browsing does not equip or change playable city
+PASS: preview does not write save
+PASS: cancel leaves equipped skin unchanged
+PASS: actual equip button changes cosmetic state
+PASS: equip signal updates playable city mesh
+PASS: equip preserves node identity position rotation and scale
+PASS: equip grants no bonuses and costs no resources or troops
+PASS: equip does not change city coordinates
+PASS: equipped option cannot be accidentally re-equipped
+PASS: equipped skin survives save reload
+PASS: invalid equip rejected without mutation
+PASS: repeated switching does not accumulate map nodes
+PASS: city edge remains selectable after switching
+PASS: older saves without skin field load default
+PASS: unknown saved skin safely falls back
+PASS: saved aurora survives map exit
+PASS: re-entered map restores equipped mesh
+STAGE11: 48 checks, 0 failures
+WARNING: 8 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 4 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

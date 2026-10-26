@@ -1,0 +1,50 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PASS: scout tower building defined
+PASS: scout tower plot sk1 defined
+PASS: scout tower model tier 0 exists
+PASS: scout tower model tier 1 exists
+PASS: scout tower model tier 2 exists
+PASS: scout plot does not crowd another plot on its ring
+PASS: scout tower build time rises with level
+PASS: vision at level 0 equals the base home radius
+PASS: vision at level 10 = base + 80
+PASS: vision clamps at max level
+PASS: no tower keeps the original 90 s warning
+PASS: warning lead grows 20 s per level
+PASS: forecast error shrinks with level
+PASS: forecast is exact from level 13
+PASS: no tower: recompute reveals nothing new
+PASS: tower 10 reveals more map (177 -> 964 cells)
+PASS: a point 125 tiles from home is revealed at tower 10
+PASS: revealing is idempotent at the same level
+PASS: higher tower level reveals even more
+PASS: revealed area is never hidden again
+PASS: no tower: no warning at 200 s before the raid
+PASS: no tower: warning inside 90 s
+PASS: tower 10: warning already at 200 s
+PASS: tower 10: no warning at 400 s (lead = 290 s)
+PASS: no tower: no forecast
+PASS: tower without a scheduled raid: no forecast
+PASS: tower 1: a range that contains the real count (9–17, real 13)
+PASS: tower 1: inexact, weather unknown
+PASS: tower 13: exact count
+PASS: tower 13: weather is reported
+PASS: forecast is read-only
+PASS: forecast range narrows or stays at level 1 (width 8)
+PASS: forecast range narrows or stays at level 4 (width 6)
+PASS: forecast range narrows or stays at level 8 (width 4)
+PASS: forecast range narrows or stays at level 12 (width 0)
+PASS: warning toast fires exactly once per raid (1)
+PASS: warning re-arms for the next raid (2)
+PASS: no tower: no tower warning toast
+PASS: tower level survives save/load
+PASS: explored area survives save/load
+PASS: old save without sk1 loads with tower level 0
+PASS: city creates a node for sk1
+PASS: tower panel shows vision, warning and accuracy
+PASS: tower panel shows the upcoming raid forecast
+PASS: HUD raid label shows the forecast when a tower exists
+PASS: HUD raid label has no forecast without a tower
+RESULT: 46/46
+ALL PASSED

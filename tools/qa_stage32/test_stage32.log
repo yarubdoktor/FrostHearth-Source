@@ -1,0 +1,24 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PASS: ground snow shader resource loads
+PASS: city uses ACES tonemapping
+PASS: permanent depth fog is on outside storms
+PASS: glow uses softlight blend
+PASS: sun energy targets the cinematic value
+PASS: snowfall uses soft quad flakes
+PASS: snowflake texture is generated
+PASS: flakes billboard toward the camera
+PASS: ground snow shader overrides the terrain surface
+PASS: frost overlay keeps its storm parameter
+PASS: frost overlay includes the permanent vignette
+PASS: storm banner sits below the top HUD panels
+PASS: storm banner wraps long warnings
+PASS: world map matches the ACES grade
+PASS: map glow stays subtle but present
+PASS: plot GLB carries the baked contact shadow disc
+PASS: shelter GLB has roof snow surfaces
+RESULT: 17/17
+WARNING: 8 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 4 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

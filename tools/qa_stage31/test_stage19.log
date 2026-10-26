@@ -1,0 +1,47 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PASS: workshop building defined
+PASS: workshop plot wk1 defined
+PASS: workshop model tier 0 exists
+PASS: workshop model tier 1 exists
+PASS: workshop model tier 2 exists
+PASS: workshop plot does not crowd another plot on its ring
+PASS: workshop build time rises with level
+PASS: shield gear lv10: +10% def, +6% hp
+PASS: spear gear lv10: +10% atk, +4% hp
+PASS: bow gear lv10: +10% atk, +4% def
+PASS: gear clamps at max level
+PASS: army_mods: shield def +10% at workshop 10
+PASS: army_mods: spear atk +10% at workshop 10
+PASS: army_mods: shield hp +6% at workshop 10
+PASS: troop stats (camp view) reflect gear
+PASS: defense_profile includes workshop gear
+PASS: gear is separate from wall bonus
+PASS: war tech levels 1-2 need no workshop
+PASS: war tech lv3 needs workshop 2, lv12 needs 20
+PASS: all war techs follow the same rule (hide lv8 -> 12)
+PASS: economy and survival techs are not gated by the workshop
+PASS: war tech lv3 blocked without workshop (reason shown)
+PASS: war tech lv3 allowed with workshop 2
+PASS: developer mode bypasses the workshop requirement
+PASS: no infirmary and no toughness -> base death share
+PASS: higher infirmary level lowers death share
+PASS: more toughness lowers death share
+PASS: death share has a floor (0.20)
+PASS: max infirmary alone does not hit the floor
+PASS: fresh game: death multiplier is 1
+PASS: game death multiplier reads infirmary level
+PASS: workshop toughness lowers shield deaths further
+PASS: bow (no gear hp) loses more than shield (gear hp)
+PASS: venture return baseline: 40 lost -> 10 dead, 30 wounded
+PASS: venture return: infirmary 20 -> fewer dead (8 vs 10)
+PASS: raid deaths with infirmary+workshop <= plain (0 vs 1)
+PASS: workshop level survives save/load
+PASS: old save without wk1 loads with workshop level 0
+PASS: city creates a node for wk1
+PASS: building panel shows stats for wk1
+PASS: building panel shows stats for in1
+PASS: infirmary panel shows casualty share
+PASS: workshop panel lists gear
+RESULT: 43/43
+ALL PASSED

@@ -1,0 +1,48 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PASS: five wall stages
+PASS: stages escalate: level, cost, time, bonus, furnace requirement
+PASS: stage by level (0/1/7/8)
+PASS: stage by level (14/15/22/23/30)
+PASS: stage entry detection
+PASS: cost jumps on entering stage 2 (4900 -> 8480)
+PASS: time jumps on entering stage 2
+PASS: time still rises inside a stage
+PASS: defense bonus jumps with the stage
+PASS: no wall no bonus
+PASS: wl1 stands at the main gate (60, 106): (60.0, 0.0, 106.0)
+PASS: no plot crowds the gate (nearest 18.3)
+PASS: ring hit-test on the wall
+PASS: ring hit-test misses furnace and inner plots
+PASS: ring model t0 exists
+PASS: ring model t1 exists
+PASS: ring model t2 exists
+PASS: ring model t3 exists
+PASS: ring model t4 exists
+PASS: old bastion model removed
+PASS: stage 2 entry blocked at furnace 8
+PASS: stage 2 entry allowed at furnace 10
+PASS: inside a stage only the normal furnace cap applies
+PASS: furnace 12 needs the wall (stage 1)
+PASS: furnace 12 allowed with wall level 1
+PASS: furnace 19 needs wall stage 2
+PASS: furnace 19 allowed with wall stage 2
+PASS: early furnace levels are not affected
+PASS: no deadlock: wall stage entry needs a lower furnace than the furnace level that needs it
+PASS: developer mode bypasses the link
+PASS: fresh city shows the palisade ring (t0)
+PASS: wall level 1 shows ring t1
+PASS: wall level 7 shows ring t1
+PASS: wall level 8 shows ring t2
+PASS: wall level 15 shows ring t3
+PASS: wall level 23 shows ring t4
+PASS: wall level 30 shows ring t4
+PASS: gate badge names the stage: قلعة  30
+PASS: no separate building model on the gate plot
+PASS: wall panel opens
+RESULT: 40/40
+ALL PASSED
+WARNING: 8 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 4 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

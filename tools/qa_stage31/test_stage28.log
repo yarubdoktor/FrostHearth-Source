@@ -1,0 +1,42 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PASS: scanned scripts (52 files)
+PASS: no script exceeds 800 lines []
+WATCH (> 500): ["res://scripts/defs.gd=738"]
+PASS: game layers chain intact (6 files)
+PASS: game_state.gd size ok
+PASS: state_actions.gd size ok
+PASS: state_sim.gd size ok
+PASS: state_queries.gd size ok
+PASS: state_army.gd size ok
+PASS: state_core.gd size ok
+PASS: city layers chain intact (6 files)
+PASS: city.gd size ok
+PASS: city_events.gd size ok
+PASS: city_panel.gd size ok
+PASS: city_world.gd size ok
+PASS: city_windows.gd size ok
+PASS: city_core.gd size ok
+PASS: map layers chain intact (5 files)
+PASS: world_map.gd size ok
+PASS: map_panel.gd size ok
+PASS: map_venture.gd size ok
+PASS: map_scene.gd size ok
+PASS: map_core.gd size ok
+PASS: Game API intact []
+PASS: Game signals intact []
+PASS: new game has a furnace
+PASS: check_upgrade answers from the queries layer
+PASS: save then load works across layers
+PASS: loaded state matches saved state
+PASS: power() from army layer
+PASS: defense_profile from army layer
+PASS: city layers expose their methods
+PASS: city selects a plot without errors
+PASS: map layers expose their methods
+RESULT: 33/33
+ALL PASSED
+WARNING: 8 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 4 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

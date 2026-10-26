@@ -1,0 +1,53 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PASS: war depot building defined
+PASS: war depot plot wd1 defined
+PASS: war depot unlocks at furnace 7
+PASS: wd1 does not crowd neighbouring plots
+PASS: wd1 is away from the main gate (south, 90 deg)
+PASS: war_depot_t0.glb exists
+PASS: war_depot_t1.glb exists
+PASS: war_depot_t2.glb exists
+PASS: capacity without depot is 60
+PASS: capacity grows 30 per level
+PASS: capacity at max level 960
+PASS: capacity clamps at max level
+PASS: supply discount 1.5% per level
+PASS: supply discount capped at 50%
+PASS: zero troops need no supplies
+PASS: 50 troops cost 100 food without depot
+PASS: depot lowers supply cost
+PASS: supply cost at least 1
+PASS: new game capacity is 60
+PASS: 60 troops pass at the base capacity, cost 120
+PASS: 61 troops rejected with a depot hint
+PASS: empty march rejected
+PASS: insufficient food rejects the march
+PASS: capacity follows depot level
+PASS: venture over capacity refused
+PASS: refused venture changes nothing
+PASS: refusal explains the allowed size
+PASS: supply cost uses depot discount (188)
+PASS: venture within capacity accepted
+PASS: supplies are deducted at launch
+PASS: venture records its supplies
+PASS: troops are reserved
+PASS: supplies survive save and load
+PASS: venture without food refused
+PASS: toast mentions supplies
+PASS: dev mode bypasses capacity and supplies
+PASS: depot level persists
+PASS: venture window shows the capacity
+PASS: summary shows size and supplies (40 / 60, 80 food)
+PASS: send enabled within capacity
+PASS: send disabled over capacity
+PASS: summary explains how to raise the cap
+PASS: send disabled with no troops chosen
+PASS: depot panel shows capacity 150 -> 180
+PASS: depot panel shows supply discount
+RESULT: 45/45
+ALL PASSED
+WARNING: 8 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 4 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

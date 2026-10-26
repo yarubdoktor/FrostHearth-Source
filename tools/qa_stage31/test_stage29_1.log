@@ -1,0 +1,97 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PASS: gallery is the first view
+PASS: details are not buried below the gallery
+PASS: six cards in a three-column gallery
+PASS: owned or locked hero can be inspected: siraj
+PASS: card fits portrait width: siraj
+PASS: large touch target: siraj
+PASS: owned or locked hero can be inspected: reem
+PASS: card fits portrait width: reem
+PASS: large touch target: reem
+PASS: owned or locked hero can be inspected: nimr
+PASS: card fits portrait width: nimr
+PASS: large touch target: nimr
+PASS: owned or locked hero can be inspected: bariq
+PASS: card fits portrait width: bariq
+PASS: large touch target: bariq
+PASS: owned or locked hero can be inspected: layla
+PASS: card fits portrait width: layla
+PASS: large touch target: layla
+PASS: owned or locked hero can be inspected: salma
+PASS: card fits portrait width: salma
+PASS: large touch target: salma
+PASS: all six cards fit the portrait screen
+PASS: opening gallery is read-only
+PASS: button available: HeroCard_siraj
+PASS: details select correct hero: siraj
+PASS: large portrait loads: siraj
+PASS: skills and actions remain available
+PASS: details do not force horizontal scrolling
+PASS: button available: HeroBack
+PASS: back returns to gallery at top
+PASS: button available: HeroCard_reem
+PASS: details select correct hero: reem
+PASS: large portrait loads: reem
+PASS: skills and actions remain available
+PASS: details do not force horizontal scrolling
+PASS: button available: HeroBack
+PASS: back returns to gallery at top
+PASS: button available: HeroCard_nimr
+PASS: details select correct hero: nimr
+PASS: large portrait loads: nimr
+PASS: skills and actions remain available
+PASS: details do not force horizontal scrolling
+PASS: button available: HeroBack
+PASS: back returns to gallery at top
+PASS: button available: HeroCard_bariq
+PASS: details select correct hero: bariq
+PASS: large portrait loads: bariq
+PASS: skills and actions remain available
+PASS: details do not force horizontal scrolling
+PASS: button available: HeroBack
+PASS: back returns to gallery at top
+PASS: button available: HeroCard_layla
+PASS: details select correct hero: layla
+PASS: large portrait loads: layla
+PASS: skills and actions remain available
+PASS: details do not force horizontal scrolling
+PASS: button available: HeroBack
+PASS: back returns to gallery at top
+PASS: button available: HeroCard_salma
+PASS: details select correct hero: salma
+PASS: large portrait loads: salma
+PASS: skills and actions remain available
+PASS: details do not force horizontal scrolling
+PASS: button available: HeroBack
+PASS: back returns to gallery at top
+PASS: browsing all heroes changes no game data
+PASS: button available: HeroCard_siraj
+PASS: unowned hero shows unlock not level action
+PASS: button available: HeroUnlock
+PASS: unlock still uses existing shard rules
+PASS: unlock refreshes action panel
+PASS: button available: HeroLevelUp
+PASS: level upgrade preserves cost and effect
+PASS: button available: HeroSummon
+PASS: summon grants the selected hero ten shards
+PASS: button available: HeroStarUp
+PASS: star upgrade still consumes correct shards
+PASS: button available: HeroDefender
+PASS: defense role updates without displacing another governor
+PASS: button available: HeroGovernor
+PASS: same hero cannot hold both roles
+PASS: button available: HeroBack
+PASS: ordinary resource drift does not rebuild hero cards
+PASS: button available: HeroCard_siraj
+PASS: resource threshold updates level button
+PASS: resource threshold updates summon button
+PASS: developer mode still bypasses summon cost
+PASS: maximum stars cannot be raised
+PASS: invalid selection falls back safely
+PASS: UI update does not change save schema
+RESULT: 90/90
+WARNING: 8 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 4 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

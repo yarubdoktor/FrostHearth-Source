@@ -1,0 +1,282 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.5 (Core Profile) Mesa 26.0.8-1ubuntu0.3 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 21.1.8, 256 bits)
+
+PASS: 120 ms average recovers constant velocity
+PASS: 100 ms pause attenuates rather than abruptly cuts momentum
+PASS: long stationary hold has no fling
+PASS: same-frame events aggregate without extra time
+PASS: history remains bounded to recent samples
+PASS: rolling window interpolates partial segments
+PASS: empty motion is safe
+PASS: exact integrated distance at 30 Hz
+PASS: exact integrated distance at 60 Hz
+PASS: exact integrated distance at 120 Hz
+PASS: touch release has velocity at 30 Hz
+PASS: coast decelerates at 30 Hz frame 0
+PASS: coast decelerates at 30 Hz frame 1
+PASS: coast decelerates at 30 Hz frame 2
+PASS: coast decelerates at 30 Hz frame 3
+PASS: coast decelerates at 30 Hz frame 4
+PASS: coast decelerates at 30 Hz frame 5
+PASS: coast decelerates at 30 Hz frame 6
+PASS: coast decelerates at 30 Hz frame 7
+PASS: coast decelerates at 30 Hz frame 8
+PASS: coast decelerates at 30 Hz frame 9
+PASS: coast decelerates at 30 Hz frame 10
+PASS: coast decelerates at 30 Hz frame 11
+PASS: camera continues moving after finger up at 30 Hz
+PASS: touch release has velocity at 60 Hz
+PASS: coast decelerates at 60 Hz frame 0
+PASS: coast decelerates at 60 Hz frame 1
+PASS: coast decelerates at 60 Hz frame 2
+PASS: coast decelerates at 60 Hz frame 3
+PASS: coast decelerates at 60 Hz frame 4
+PASS: coast decelerates at 60 Hz frame 5
+PASS: coast decelerates at 60 Hz frame 6
+PASS: coast decelerates at 60 Hz frame 7
+PASS: coast decelerates at 60 Hz frame 8
+PASS: coast decelerates at 60 Hz frame 9
+PASS: coast decelerates at 60 Hz frame 10
+PASS: coast decelerates at 60 Hz frame 11
+PASS: camera continues moving after finger up at 60 Hz
+PASS: touch release has velocity at 120 Hz
+PASS: coast decelerates at 120 Hz frame 0
+PASS: coast decelerates at 120 Hz frame 1
+PASS: coast decelerates at 120 Hz frame 2
+PASS: coast decelerates at 120 Hz frame 3
+PASS: coast decelerates at 120 Hz frame 4
+PASS: coast decelerates at 120 Hz frame 5
+PASS: coast decelerates at 120 Hz frame 6
+PASS: coast decelerates at 120 Hz frame 7
+PASS: coast decelerates at 120 Hz frame 8
+PASS: coast decelerates at 120 Hz frame 9
+PASS: coast decelerates at 120 Hz frame 10
+PASS: coast decelerates at 120 Hz frame 11
+PASS: camera continues moving after finger up at 120 Hz
+PASS: brief pause over old 90 ms cutoff still permits gentle fling
+PASS: intentional stationary hold stops fling
+PASS: world speed scales naturally with zoom distance
+PASS: fling respects zoom-scaled speed cap
+PASS: camera endpoints agree across 30/60/120 Hz
+PASS: ground stays under the dragging finger
+PASS: new mouse press stops prior fling
+PASS: mouse drag and release has inertia
+PASS: coast settles without persistent tiny drift
+PASS: simple tap selects once without fling
+PASS: small tap jitter does not pan
+PASS: long hold is not mistaken for a tap
+PASS: touch starting on UI never pans or sticks
+PASS: wheel over UI does not zoom map
+PASS: canceled touch has no phantom fling
+PASS: focus loss clears active gestures
+PASS: stray events after focus loss do not move map
+PASS: lower edges never expose outside map
+PASS: edge collision creates small inward rebound
+PASS: rebound is strongly damped
+PASS: edge rebound moves gently inward
+PASS: upper edge remains bounded frame 0
+PASS: upper edge remains bounded frame 1
+PASS: upper edge remains bounded frame 2
+PASS: upper edge remains bounded frame 3
+PASS: upper edge remains bounded frame 4
+PASS: upper edge remains bounded frame 5
+PASS: upper edge remains bounded frame 6
+PASS: upper edge remains bounded frame 7
+PASS: upper edge remains bounded frame 8
+PASS: upper edge remains bounded frame 9
+PASS: upper edge remains bounded frame 10
+PASS: upper edge remains bounded frame 11
+PASS: upper edge remains bounded frame 12
+PASS: upper edge remains bounded frame 13
+PASS: upper edge remains bounded frame 14
+PASS: upper edge remains bounded frame 15
+PASS: upper edge remains bounded frame 16
+PASS: upper edge remains bounded frame 17
+PASS: upper edge remains bounded frame 18
+PASS: upper edge remains bounded frame 19
+PASS: upper edge remains bounded frame 20
+PASS: upper edge remains bounded frame 21
+PASS: upper edge remains bounded frame 22
+PASS: upper edge remains bounded frame 23
+PASS: upper edge remains bounded frame 24
+PASS: upper edge remains bounded frame 25
+PASS: upper edge remains bounded frame 26
+PASS: upper edge remains bounded frame 27
+PASS: upper edge remains bounded frame 28
+PASS: upper edge remains bounded frame 29
+PASS: upper edge remains bounded frame 30
+PASS: upper edge remains bounded frame 31
+PASS: upper edge remains bounded frame 32
+PASS: upper edge remains bounded frame 33
+PASS: upper edge remains bounded frame 34
+PASS: upper edge remains bounded frame 35
+PASS: upper edge remains bounded frame 36
+PASS: upper edge remains bounded frame 37
+PASS: upper edge remains bounded frame 38
+PASS: upper edge remains bounded frame 39
+PASS: upper edge remains bounded frame 40
+PASS: upper edge remains bounded frame 41
+PASS: upper edge remains bounded frame 42
+PASS: upper edge remains bounded frame 43
+PASS: upper edge remains bounded frame 44
+PASS: upper edge remains bounded frame 45
+PASS: upper edge remains bounded frame 46
+PASS: upper edge remains bounded frame 47
+PASS: upper edge remains bounded frame 48
+PASS: upper edge remains bounded frame 49
+PASS: upper edge remains bounded frame 50
+PASS: upper edge remains bounded frame 51
+PASS: upper edge remains bounded frame 52
+PASS: upper edge remains bounded frame 53
+PASS: upper edge remains bounded frame 54
+PASS: upper edge remains bounded frame 55
+PASS: upper edge remains bounded frame 56
+PASS: upper edge remains bounded frame 57
+PASS: upper edge remains bounded frame 58
+PASS: upper edge remains bounded frame 59
+PASS: upper edge remains bounded frame 60
+PASS: upper edge remains bounded frame 61
+PASS: upper edge remains bounded frame 62
+PASS: upper edge remains bounded frame 63
+PASS: upper edge remains bounded frame 64
+PASS: upper edge remains bounded frame 65
+PASS: upper edge remains bounded frame 66
+PASS: upper edge remains bounded frame 67
+PASS: upper edge remains bounded frame 68
+PASS: upper edge remains bounded frame 69
+PASS: upper edge remains bounded frame 70
+PASS: upper edge remains bounded frame 71
+PASS: upper edge remains bounded frame 72
+PASS: upper edge remains bounded frame 73
+PASS: upper edge remains bounded frame 74
+PASS: upper edge remains bounded frame 75
+PASS: upper edge remains bounded frame 76
+PASS: upper edge remains bounded frame 77
+PASS: upper edge remains bounded frame 78
+PASS: upper edge remains bounded frame 79
+PASS: upper edge remains bounded frame 80
+PASS: upper edge remains bounded frame 81
+PASS: upper edge remains bounded frame 82
+PASS: upper edge remains bounded frame 83
+PASS: upper edge remains bounded frame 84
+PASS: upper edge remains bounded frame 85
+PASS: upper edge remains bounded frame 86
+PASS: upper edge remains bounded frame 87
+PASS: upper edge remains bounded frame 88
+PASS: upper edge remains bounded frame 89
+PASS: upper edge remains bounded frame 90
+PASS: upper edge remains bounded frame 91
+PASS: upper edge remains bounded frame 92
+PASS: upper edge remains bounded frame 93
+PASS: upper edge remains bounded frame 94
+PASS: upper edge remains bounded frame 95
+PASS: upper edge remains bounded frame 96
+PASS: upper edge remains bounded frame 97
+PASS: upper edge remains bounded frame 98
+PASS: upper edge remains bounded frame 99
+PASS: upper edge remains bounded frame 100
+PASS: upper edge remains bounded frame 101
+PASS: upper edge remains bounded frame 102
+PASS: upper edge remains bounded frame 103
+PASS: upper edge remains bounded frame 104
+PASS: upper edge remains bounded frame 105
+PASS: upper edge remains bounded frame 106
+PASS: upper edge remains bounded frame 107
+PASS: upper edge remains bounded frame 108
+PASS: upper edge remains bounded frame 109
+PASS: upper edge remains bounded frame 110
+PASS: upper edge remains bounded frame 111
+PASS: upper edge remains bounded frame 112
+PASS: upper edge remains bounded frame 113
+PASS: upper edge remains bounded frame 114
+PASS: upper edge remains bounded frame 115
+PASS: upper edge remains bounded frame 116
+PASS: upper edge remains bounded frame 117
+PASS: upper edge remains bounded frame 118
+PASS: upper edge remains bounded frame 119
+PASS: upper edge remains bounded frame 120
+PASS: upper edge remains bounded frame 121
+PASS: upper edge remains bounded frame 122
+PASS: upper edge remains bounded frame 123
+PASS: upper edge remains bounded frame 124
+PASS: upper edge remains bounded frame 125
+PASS: upper edge remains bounded frame 126
+PASS: upper edge remains bounded frame 127
+PASS: upper edge remains bounded frame 128
+PASS: upper edge remains bounded frame 129
+PASS: upper edge remains bounded frame 130
+PASS: upper edge remains bounded frame 131
+PASS: upper edge remains bounded frame 132
+PASS: upper edge remains bounded frame 133
+PASS: upper edge remains bounded frame 134
+PASS: upper edge remains bounded frame 135
+PASS: upper edge remains bounded frame 136
+PASS: upper edge remains bounded frame 137
+PASS: upper edge remains bounded frame 138
+PASS: upper edge remains bounded frame 139
+PASS: upper edge remains bounded frame 140
+PASS: upper edge remains bounded frame 141
+PASS: upper edge remains bounded frame 142
+PASS: upper edge remains bounded frame 143
+PASS: upper edge remains bounded frame 144
+PASS: upper edge remains bounded frame 145
+PASS: upper edge remains bounded frame 146
+PASS: upper edge remains bounded frame 147
+PASS: upper edge remains bounded frame 148
+PASS: upper edge remains bounded frame 149
+PASS: upper edge remains bounded frame 150
+PASS: upper edge remains bounded frame 151
+PASS: upper edge remains bounded frame 152
+PASS: upper edge remains bounded frame 153
+PASS: upper edge remains bounded frame 154
+PASS: upper edge remains bounded frame 155
+PASS: upper edge remains bounded frame 156
+PASS: upper edge remains bounded frame 157
+PASS: upper edge remains bounded frame 158
+PASS: upper edge remains bounded frame 159
+PASS: upper edge remains bounded frame 160
+PASS: upper edge remains bounded frame 161
+PASS: upper edge remains bounded frame 162
+PASS: upper edge remains bounded frame 163
+PASS: upper edge remains bounded frame 164
+PASS: upper edge remains bounded frame 165
+PASS: upper edge remains bounded frame 166
+PASS: upper edge remains bounded frame 167
+PASS: upper edge remains bounded frame 168
+PASS: upper edge remains bounded frame 169
+PASS: upper edge remains bounded frame 170
+PASS: upper edge remains bounded frame 171
+PASS: upper edge remains bounded frame 172
+PASS: upper edge remains bounded frame 173
+PASS: upper edge remains bounded frame 174
+PASS: upper edge remains bounded frame 175
+PASS: upper edge remains bounded frame 176
+PASS: upper edge remains bounded frame 177
+PASS: upper edge remains bounded frame 178
+PASS: upper edge remains bounded frame 179
+PASS: adding second finger does not jump camera
+PASS: spreading fingers zooms in
+PASS: two-to-one transition does not jump
+PASS: pinch release never selects a location
+PASS: pinch release has bounded zoom momentum
+PASS: zoom continues briefly after release
+PASS: zoom settles within limits
+PASS: zoom momentum stops at far limit
+PASS: zoom preserves the ground under its anchor
+PASS: wheel zoom eases rather than jumping
+PASS: set_view clears old motion
+PASS: actual city camera coasts
+PASS: actual city respects its own bounds
+PASS: actual city keeps portrait projection
+PASS: actual city fly_to still reaches destination
+PASS: actual world_map camera coasts
+PASS: actual world_map respects its own bounds
+PASS: actual world_map keeps portrait projection
+PASS: actual world_map fly_to still reaches destination
+RESULT: 272/272
+WARNING: 8 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 4 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

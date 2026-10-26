@@ -1,0 +1,35 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PASS: wall building defined
+PASS: wall plot wl1 defined
+PASS: wall models exist
+PASS: level 0 gives no bonus
+PASS: level 10: +24% defense, +13% tower attack (levels + stage 2 bonus)
+PASS: bonus clamps at max level
+PASS: wall build time rises with level
+PASS: no troops -> empty profile, zero power
+PASS: fresh game has no wall
+PASS: wall alone gives NO free garrison
+PASS: profile reads wall level
+PASS: wall does not change unit counts
+PASS: wall raises defense power (523 -> 716)
+PASS: shield defense +24% at wall 10
+PASS: bow attack +13% at wall 10
+PASS: profile is read-only
+PASS: wall does not increase defender losses (19 vs 22)
+PASS: raid report records defense profile
+PASS: raid report wall level = 8
+PASS: raid report wall bonus recorded
+PASS: raid report lists defenders present
+PASS: empty city with max wall still loses the raid
+PASS: no defenders recorded
+PASS: wall level survives save/load
+PASS: old save without wl1 loads with wall level 0
+PASS: city creates a node for wl1
+PASS: wall can be queried for upgrade
+RESULT: 27/27
+ALL PASSED
+WARNING: 10 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 5 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

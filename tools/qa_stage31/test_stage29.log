@@ -1,0 +1,176 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PASS: new game piece starts at zero: shieldweapon
+PASS: new game piece starts at zero: shieldarmor
+PASS: new game piece starts at zero: shieldhelmet
+PASS: new game piece starts at zero: shieldrune
+PASS: new game piece starts at zero: spearweapon
+PASS: new game piece starts at zero: speararmor
+PASS: new game piece starts at zero: spearhelmet
+PASS: new game piece starts at zero: spearrune
+PASS: new game piece starts at zero: bowweapon
+PASS: new game piece starts at zero: bowarmor
+PASS: new game piece starts at zero: bowhelmet
+PASS: new game piece starts at zero: bowrune
+PASS: 12 unique Arabic piece names
+PASS: workshop unlock level 1
+PASS: duration curve 1
+PASS: workshop unlock level 2
+PASS: duration curve 2
+PASS: workshop unlock level 3
+PASS: duration curve 3
+PASS: workshop unlock level 4
+PASS: duration curve 4
+PASS: workshop unlock level 5
+PASS: duration curve 5
+PASS: workshop unlock level 6
+PASS: duration curve 6
+PASS: workshop unlock level 7
+PASS: duration curve 7
+PASS: workshop unlock level 8
+PASS: duration curve 8
+PASS: workshop unlock level 9
+PASS: duration curve 9
+PASS: workshop unlock level 10
+PASS: duration curve 10
+PASS: capacity at workshop 0
+PASS: capacity at workshop 1
+PASS: capacity at workshop 9
+PASS: capacity at workshop 10
+PASS: capacity at workshop 19
+PASS: capacity at workshop 20
+PASS: capacity at workshop 30
+PASS: workshop accelerates production
+PASS: runes require aurora starting at level 5
+PASS: cost grows by 1.5
+PASS: invalid troop rejected
+PASS: invalid slot rejected without mutation
+PASS: missing jobs safe
+PASS: unbuilt workshop rejected
+PASS: workshop requirement enforced
+PASS: level cap enforced
+PASS: insufficient material rejected
+PASS: insufficient aurora rejected
+PASS: paid craft starts
+PASS: materials deducted exactly
+PASS: no bonus until completion
+PASS: duplicate piece blocked
+PASS: cancel succeeds
+PASS: full exact refund
+PASS: no double refund
+PASS: first slot starts
+PASS: capacity blocks second job
+PASS: level 10 opens second parallel slot
+PASS: parallel jobs retained
+PASS: jobs overlap in time
+PASS: does not finish early
+PASS: tick completes both jobs
+PASS: completed jobs removed
+PASS: completion idempotent
+PASS: aurora paid for rune upgrade
+PASS: aurora refunded exactly
+PASS: developer craft is free
+PASS: developer cancel cannot mint resources
+PASS: long upgrade starts
+PASS: long job has paid speedup
+PASS: poor player cannot speed up
+PASS: paid speedup works
+PASS: speedup charges and completes
+PASS: short job uses existing free speedup rule
+PASS: expired job completes rather than refunds
+PASS: expired cancel grants piece without refund
+PASS: developer finish all includes equipment
+PASS: level 30 supports parallel job weapon
+PASS: level 30 supports parallel job armor
+PASS: level 30 supports parallel job helmet
+PASS: level 30 supports parallel job rune
+PASS: fifth job rejected at maximum capacity
+PASS: cancel by identity removes middle job
+PASS: middle cancellation preserves other jobs
+PASS: normal simulation completes jobs
+PASS: every piece can be crafted: shieldweapon
+PASS: every piece can be crafted: shieldarmor
+PASS: every piece can be crafted: shieldhelmet
+PASS: every piece can be crafted: shieldrune
+PASS: every piece can be crafted: spearweapon
+PASS: every piece can be crafted: speararmor
+PASS: every piece can be crafted: spearhelmet
+PASS: every piece can be crafted: spearrune
+PASS: every piece can be crafted: bowweapon
+PASS: every piece can be crafted: bowarmor
+PASS: every piece can be crafted: bowhelmet
+PASS: every piece can be crafted: bowrune
+PASS: crafted weapon attack additive
+PASS: crafted armor defense additive
+PASS: crafted helmet health additive
+PASS: rune damage is per troop type
+PASS: troop display exposes final damage
+PASS: no cross-type bonus
+PASS: each equipment level adds 14 power
+PASS: incomplete threshold has no set bonus
+PASS: highest set threshold 3
+PASS: set attack additive
+PASS: set health additive
+PASS: set power bonus
+PASS: highest set threshold 6
+PASS: set attack additive
+PASS: set health additive
+PASS: set power bonus
+PASS: highest set threshold 10
+PASS: set attack additive
+PASS: set health additive
+PASS: set power bonus
+PASS: formation preserves equipment damage
+PASS: city defense consumes crafted armor
+PASS: displayed defense power includes crafted effects
+PASS: equipment never creates a free garrison
+PASS: rune multiplies final army damage
+PASS: rune has NO damage bonus against beasts
+PASS: venture launches with equipment
+PASS: venture snapshots crafted effects
+PASS: travelling army snapshot stays unchanged
+PASS: v7 load succeeds
+PASS: v7 restores equipment levels
+PASS: v7 restores job identity and deadline within JSON precision
+PASS: v7 preserves exact paid amount: wood
+PASS: v7 preserves exact paid amount: iron
+PASS: restored receipt refundable
+PASS: v6 migrates
+PASS: v6 begins without crafted pieces
+PASS: v6 preserves identity and resources
+PASS: legacy workshop blessing retained
+PASS: migrated save writes v7
+PASS: short offline absence settles completed job
+PASS: long offline simulation completes equipment
+PASS: restore clamps invalid levels
+PASS: restore ignores invalid jobs
+PASS: new game resets equipment and jobs
+PASS: workshop panel exposes entry button
+PASS: workshop window opens from building
+PASS: piece card visible shieldweapon
+PASS: piece card visible shieldarmor
+PASS: piece card visible shieldhelmet
+PASS: piece card visible shieldrune
+PASS: piece card visible spearweapon
+PASS: piece card visible speararmor
+PASS: piece card visible spearhelmet
+PASS: piece card visible spearrune
+PASS: piece card visible bowweapon
+PASS: piece card visible bowarmor
+PASS: piece card visible bowhelmet
+PASS: piece card visible bowrune
+PASS: craft button enabled with materials
+PASS: UI button starts craft
+PASS: workshop minimum width fits portrait viewport
+PASS: timer above workshop
+PASS: workshop appears in side queue
+PASS: side queue has room for workshop
+PASS: workshop side row visible
+PASS: side row reopens workshop
+PASS: completion clears timer and refreshes UI
+PASS: resource changes disable craft without reopening
+RESULT: 169/169
+WARNING: 8 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 4 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

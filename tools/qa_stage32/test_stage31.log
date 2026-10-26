@@ -1,0 +1,78 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PASS: three planned milestones have definitions
+PASS: legacy profile defaults to no cosmetics
+PASS: adding defaults keeps old identity
+PASS: save repair deduplicates and discards unknown badges
+PASS: save repair keeps unlocked selection only
+PASS: bad saved list cannot unlock cosmetics
+PASS: malformed optional fields safely use defaults
+PASS: missing decorations are safe
+PASS: saved title resolves for first_hero
+PASS: saved frame has valid visible color for first_hero
+PASS: saved title resolves for furnace_10
+PASS: saved frame has valid visible color for furnace_10
+PASS: saved title resolves for ten_defenses
+PASS: saved frame has valid visible color for ten_defenses
+PASS: fresh settlement grants no milestone
+PASS: locked title cannot be equipped
+PASS: locked frame cannot be equipped
+PASS: unknown kinds and ids are refused
+PASS: hero shards alone do not count as an owned hero
+PASS: ownership change automatically unlocks first hero
+PASS: repeated updates and saves cannot duplicate badge
+PASS: furnace nine and nine wins remain below threshold
+PASS: failed raids do not unlock defense title
+PASS: furnace ten automatically unlocks its milestone
+PASS: ten defense victories unlock third milestone
+PASS: unlocked title equips: first_hero
+PASS: unlocked frame equips: first_hero
+PASS: unlocked title equips: furnace_10
+PASS: unlocked frame equips: furnace_10
+PASS: unlocked title equips: ten_defenses
+PASS: unlocked frame equips: ten_defenses
+PASS: cosmetics neither spend nor grant currency
+PASS: cosmetics do not change strength or combat
+PASS: cosmetics do not modify workshop equipment
+PASS: default title and frame can be restored
+PASS: reset selections really clear saved fields
+PASS: extended v7 save loads
+PASS: all badges and independent selections survive reload
+PASS: new settlement keeps earned profile milestones with identity
+PASS: new settlement keeps chosen cosmetics
+PASS: profile persistence does not carry over settlement progression
+PASS: previous Stage 30 save without cosmetic fields loads
+PASS: old settlement retroactively earns milestones without auto-equipping rewards
+PASS: cosmetic optional fields need no save-version migration
+PASS: profile includes achievement section
+PASS: profile shows progress for first_hero
+PASS: locked title control is disabled for first_hero
+PASS: locked frame control is disabled for first_hero
+PASS: profile shows progress for furnace_10
+PASS: locked title control is disabled for furnace_10
+PASS: locked frame control is disabled for furnace_10
+PASS: profile shows progress for ten_defenses
+PASS: locked title control is disabled for ten_defenses
+PASS: locked frame control is disabled for ten_defenses
+PASS: default profile has no invented title
+PASS: open profile reacts to newly earned milestone
+PASS: profile title button chooses earned title
+PASS: equipped title appears beneath player name
+PASS: profile frame button chooses earned frame
+PASS: portrait displays selected frame color
+PASS: main HUD avatar displays selected frame
+PASS: selected reward is visibly marked active
+PASS: profile window remains within portrait width
+PASS: long profile scrolls vertically
+PASS: reward button fits width with touch height for first_hero
+PASS: reward button fits width with touch height for furnace_10
+PASS: reward button fits width with touch height for ten_defenses
+PASS: default frame restores original HUD style
+PASS: cosmetic selection preserves scroll position
+PASS: removing title removes header label
+PASS: existing name editing and settings remain available
+RESULT: 71/71
+WARNING: 8 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 4 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

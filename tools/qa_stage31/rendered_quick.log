@@ -1,0 +1,91 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.5 (Core Profile) Mesa 26.0.8-1ubuntu0.3 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 21.1.8, 256 bits)
+
+PASS: twelve gear-specific assets are registered
+PASS: vector icon imports at 128 square: shield_weapon
+PASS: icon artwork is unique: shield_weapon
+PASS: piece card uses correct nonblocking icon: shield_weapon
+PASS: icon fits portrait card: shield_weapon
+PASS: vector icon imports at 128 square: shield_armor
+PASS: icon artwork is unique: shield_armor
+PASS: piece card uses correct nonblocking icon: shield_armor
+PASS: icon fits portrait card: shield_armor
+PASS: vector icon imports at 128 square: shield_helmet
+PASS: icon artwork is unique: shield_helmet
+PASS: piece card uses correct nonblocking icon: shield_helmet
+PASS: icon fits portrait card: shield_helmet
+PASS: vector icon imports at 128 square: shield_rune
+PASS: icon artwork is unique: shield_rune
+PASS: piece card uses correct nonblocking icon: shield_rune
+PASS: icon fits portrait card: shield_rune
+PASS: vector icon imports at 128 square: spear_weapon
+PASS: icon artwork is unique: spear_weapon
+PASS: piece card uses correct nonblocking icon: spear_weapon
+PASS: icon fits portrait card: spear_weapon
+PASS: vector icon imports at 128 square: spear_armor
+PASS: icon artwork is unique: spear_armor
+PASS: piece card uses correct nonblocking icon: spear_armor
+PASS: icon fits portrait card: spear_armor
+PASS: vector icon imports at 128 square: spear_helmet
+PASS: icon artwork is unique: spear_helmet
+PASS: piece card uses correct nonblocking icon: spear_helmet
+PASS: icon fits portrait card: spear_helmet
+PASS: vector icon imports at 128 square: spear_rune
+PASS: icon artwork is unique: spear_rune
+PASS: piece card uses correct nonblocking icon: spear_rune
+PASS: icon fits portrait card: spear_rune
+PASS: vector icon imports at 128 square: bow_weapon
+PASS: icon artwork is unique: bow_weapon
+PASS: piece card uses correct nonblocking icon: bow_weapon
+PASS: icon fits portrait card: bow_weapon
+PASS: vector icon imports at 128 square: bow_armor
+PASS: icon artwork is unique: bow_armor
+PASS: piece card uses correct nonblocking icon: bow_armor
+PASS: icon fits portrait card: bow_armor
+PASS: vector icon imports at 128 square: bow_helmet
+PASS: icon artwork is unique: bow_helmet
+PASS: piece card uses correct nonblocking icon: bow_helmet
+PASS: icon fits portrait card: bow_helmet
+PASS: vector icon imports at 128 square: bow_rune
+PASS: icon artwork is unique: bow_rune
+PASS: piece card uses correct nonblocking icon: bow_rune
+PASS: icon fits portrait card: bow_rune
+PASS: viewing all gear art never changes economy or power
+PASS: completion layer starts empty and passes input
+PASS: actual building training research and crafting each emit one completion
+PASS: completion signals identify correct buildings and work kinds
+PASS: all four completed jobs create bounded building highlights
+PASS: notifications do not interfere with job completion
+PASS: ordinary ticks do not replay completion events
+PASS: completion panel cannot steal map taps
+PASS: completion panel cannot steal map taps
+PASS: completion panel cannot steal map taps
+PASS: completion panel cannot steal map taps
+PASS: highlight fades rather than loops or strobes
+PASS: highlight nodes are freed when duration ends
+PASS: simultaneous jobs on one building merge without duplicate panels
+PASS: canceled construction and training never flash completion
+PASS: offline completions do not replay visual alerts
+PASS: opening a window does not replay old alerts
+PASS: phase uses correct scheduled boundary at 110
+PASS: phase uses correct scheduled boundary at 120
+PASS: phase uses correct scheduled boundary at 140
+PASS: phase uses correct scheduled boundary at 150
+PASS: phase uses correct scheduled boundary at 169
+PASS: returned march has no stale negative timer
+PASS: zero-length task switches immediately to return
+PASS: scout uses mission caption rather than resource gathering
+PASS: empty expired data does not divide by zero
+PASS: world creates one timer for each actual march
+PASS: outbound timer appears above visible squad
+PASS: march timer does not intercept map gestures
+PASS: nearby squads have separated timer panels
+PASS: timer updates to collection phase without rebuilding world
+PASS: timer updates to return phase
+PASS: military expedition also has a timer
+PASS: timers only read march data
+PASS: finished and removed missions lose their timers immediately
+PASS: all timer controls are freed on return
+RESULT: 85/85

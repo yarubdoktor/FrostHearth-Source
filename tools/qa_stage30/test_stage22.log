@@ -1,0 +1,56 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PASS: market building defined
+PASS: market plot mk1 defined
+PASS: market unlocks at furnace 8
+PASS: mk1 does not crowd neighbouring plots
+PASS: mk1 is away from the main gate
+PASS: market_t0.glb exists
+PASS: market_t1.glb exists
+PASS: market_t2.glb exists
+PASS: fee 20% at level 1
+PASS: fee drops 1% per level
+PASS: fee floor 8%
+PASS: quota grows 200 per level
+PASS: iron price oscillates within +-5%
+PASS: price actually moves over time
+PASS: storm raises coal price 30%
+PASS: storm leaves iron price
+PASS: same resource gives nothing
+PASS: zero amount gives nothing
+PASS: instant round trip never profits (all pairs, max level)
+PASS: timed arbitrage stays under 12% (1.030)
+PASS: new game has no market
+PASS: trade refused without a market
+PASS: toast asks to build the market
+PASS: quote positive
+PASS: trade accepted
+PASS: resources move by the quote
+PASS: quota decreases (300 - 100)
+PASS: trade over remaining quota refused
+PASS: toast mentions quota
+PASS: same resource refused
+PASS: zero amount refused
+PASS: trade over stock refused
+PASS: traded stat counts units
+PASS: quota renews after the window
+PASS: reset timer positive
+PASS: quota usage and market level persist
+PASS: higher level has larger quota
+PASS: quote works at higher level
+PASS: dev mode bypasses quota
+PASS: live coal price rises during a storm
+PASS: market panel shows fee and quota
+PASS: market panel has an open button
+PASS: market window opens
+PASS: window shows the price board
+PASS: window shows level-3 fee (18%)
+PASS: window shows the trade preview
+PASS: trade button enabled with a valid default
+PASS: pressing trade spends the sold resource
+RESULT: 48/48
+ALL PASSED
+WARNING: 10 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 5 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

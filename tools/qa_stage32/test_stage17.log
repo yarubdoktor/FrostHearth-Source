@@ -1,0 +1,80 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PASS: shelter has no pace discount
+PASS: no discount up to level 6
+PASS: iron mine fully discounted at level 12 (0.350000)
+PASS: discount stays flat after level 12
+PASS: level 9 is partway
+PASS: iron mine L5 wood unchanged (2620)
+PASS: furnace L10 wood unchanged (10100)
+PASS: total cost rises with level for every building
+PASS: furnace L12 drain <= 1.5x income (0.93)
+PASS: furnace L20 drain <= 0.8x income (0.46)
+PASS: shelter L12 drain <= 1.5x income (0.71)
+PASS: shelter L20 drain <= 0.8x income (0.35)
+PASS: hunter L12 drain <= 1.5x income (0.75)
+PASS: hunter L20 drain <= 0.8x income (0.37)
+PASS: sawmill L12 drain <= 1.5x income (0.56)
+PASS: sawmill L20 drain <= 0.8x income (0.28)
+PASS: coal_mine L12 drain <= 1.5x income (1.22)
+PASS: coal_mine L20 drain <= 0.8x income (0.60)
+PASS: iron_mine L12 drain <= 1.5x income (1.23)
+PASS: iron_mine L20 drain <= 0.8x income (0.61)
+PASS: storehouse L12 drain <= 1.5x income (1.24)
+PASS: storehouse L20 drain <= 0.8x income (0.62)
+PASS: infirmary L12 drain <= 1.5x income (1.27)
+PASS: infirmary L20 drain <= 0.8x income (0.63)
+PASS: barracks L12 drain <= 1.5x income (1.22)
+PASS: barracks L20 drain <= 0.8x income (0.61)
+PASS: bk_shield L12 drain <= 1.5x income (1.21)
+PASS: bk_shield L20 drain <= 0.8x income (0.60)
+PASS: bk_spear L12 drain <= 1.5x income (1.16)
+PASS: bk_spear L20 drain <= 0.8x income (0.58)
+PASS: bk_bow L12 drain <= 1.5x income (1.23)
+PASS: bk_bow L20 drain <= 0.8x income (0.61)
+PASS: hero_hall L12 drain <= 1.5x income (1.28)
+PASS: hero_hall L20 drain <= 0.8x income (0.64)
+PASS: lab L12 drain <= 1.5x income (1.27)
+PASS: lab L20 drain <= 0.8x income (0.63)
+PASS: workshop L12 drain <= 1.5x income (1.20)
+PASS: workshop L20 drain <= 0.8x income (0.60)
+PASS: market L12 drain <= 1.5x income (1.26)
+PASS: market L20 drain <= 0.8x income (0.63)
+PASS: scout_tower L12 drain <= 1.5x income (1.10)
+PASS: scout_tower L20 drain <= 0.8x income (0.54)
+PASS: war_depot L12 drain <= 1.5x income (1.14)
+PASS: war_depot L20 drain <= 0.8x income (0.57)
+PASS: wall L12 drain <= 1.5x income (1.27)
+PASS: wall L20 drain <= 0.8x income (0.65)
+PASS: heaviest/lightest building drain ratio <= 2.6 (was ~7.5) -> 2.28
+PASS: tech saw lv4 wood unchanged (2460)
+PASS: tech saw lv5 costlier than old curve
+PASS: tech saw lv12 >3.5x the old cost (417390 vs 105553)
+PASS: aurora cost curve untouched
+PASS: shield tier4 x10 food = 4260 (4260)
+PASS: tier1 cost unchanged
+PASS: 2 builders until furnace 9
+PASS: 3 builders at furnace 10-19
+PASS: 4 builders from furnace 20
+PASS: offline cap floor is 8h
+PASS: offline cap follows storage hours (12h)
+PASS: new game: 2 builders
+PASS: next builder unlocks at furnace 10
+PASS: new game: offline cap 8h (28800.000000)
+PASS: furnace 9 + 2 jobs: no free builder
+PASS: furnace 10: 3 builders
+PASS: furnace 10 + 2 jobs: third builder free
+PASS: furnace 10 + 3 jobs: no free builder
+PASS: furnace 20: 4 builders, none left to unlock
+PASS: storehouse 30: 17 storage hours (17.000000)
+PASS: offline cap rises to 17h
+PASS: UI has a row per possible builder (4)
+PASS: start: 2 open rows + 1 locked hint row (3 visible)
+PASS: locked row states furnace 10
+PASS: furnace 20: all 4 rows visible, no locked hint (4)
+---- stage17: 72 checks, 0 failures
+ALL PASSED
+WARNING: 8 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 4 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

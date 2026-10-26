@@ -1,0 +1,55 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PASS: exactly 4 shelter plots (4)
+PASS: barracks plot exists for shield
+PASS: barracks plot exists for spear
+PASS: barracks plot exists for bow
+PASS: camp plot still exists
+PASS: shelter capacity formula
+PASS: no two plots closer than 8 units
+PASS: no barracks -> refused naming shield barracks
+PASS: barracks without camp -> refused (camp needed)
+PASS: camp + shield barracks -> shield training allowed
+PASS: spear needs its own barracks
+PASS: start shield batch
+PASS: start spear batch in parallel
+PASS: two independent queues
+PASS: same barracks busy
+PASS: training_total counts both queues
+PASS: finishing shield leaves spear queue
+PASS: shield troops added on completion
+PASS: cancel refunds cost and clears queue
+PASS: higher barracks level trains faster (x1.60)
+PASS: higher tier takes longer
+PASS: bigger batch takes longer
+PASS: higher tier costs more
+PASS: tier 2 locked at barracks level 1
+PASS: tier 2 unlocked at barracks level 6
+PASS: max tier per barracks
+PASS: batch per barracks (80)
+PASS: batch over limit refused
+PASS: camp capacity from camp level (150)
+PASS: camp full -> training refused
+PASS: exactly filling camp allowed
+PASS: troops away still occupy the camp
+PASS: no camp -> no capacity
+PASS: new game has no military building
+PASS: any barracks counts as military
+PASS: dev mode bypasses barracks/camp/tier
+PASS: v4 save loads
+PASS: removed shelters dropped
+PASS: queue entry of removed shelter dropped
+PASS: removed shelters + cancelled build fully refunded (380 wood)
+PASS: new barracks granted at old camp level
+PASS: camp keeps its level
+PASS: old single train queue migrated to per-type queue
+PASS: migration note recorded
+PASS: re-saved as the current save version
+PASS: v5 save loads without migration
+PASS: no task asks for more than 4 shelters
+---- stage13: 47 checks, 0 failures
+ALL PASSED
+WARNING: 8 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 4 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

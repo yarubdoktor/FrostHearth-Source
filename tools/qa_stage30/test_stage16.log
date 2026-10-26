@@ -1,0 +1,45 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PASS: short time: 45s -> 00:45 (00:45)
+PASS: short time: 125s -> 02:05
+PASS: short time: 3700s -> 1س 01د (1س 01د)
+PASS: short time: 25h -> 1ي 01س (1ي 01س)
+PASS: short time: 30 days -> 1 شهر 0ي (1 شهر 0ي)
+PASS: short time: negative clamps to 00:00
+PASS: timer layer exists
+PASS: side queue has 5 job rows
+PASS: job row hidden when no job
+PASS: no city jobs at start
+PASS: no building job at start
+PASS: build job found on plot
+PASS: level 1 shows 'بناء'
+PASS: level 4 shows 'ترقية 4' (ترقية 4)
+PASS: progress 25%
+PASS: progress clamps at 100
+PASS: training shows on spear barracks (bp1)
+PASS: training name shows count
+PASS: shield barracks has no job
+PASS: bow barracks has no job
+PASS: shelter job unaffected by training
+PASS: build + train both listed, build first
+PASS: research shows on lab (lb1)
+PASS: research not shown on barracks
+PASS: city jobs: 1 training + 1 research
+PASS: first job row visible
+PASS: second job row visible
+PASS: third job row hidden
+PASS: job row shows remaining time
+PASS: timer widgets created for sh1, bp1, lb1
+PASS: no widget for idle plots
+PASS: barracks plot keeps flag material
+PASS: non-barracks plot has no flag material
+PASS: old 3D timer text is empty
+PASS: no city jobs after finishing
+PASS: widget hidden after job ends
+PASS: job row hidden after job ends
+---- stage16: 37 checks, 0 failures
+ALL PASSED
+WARNING: 8 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 4 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

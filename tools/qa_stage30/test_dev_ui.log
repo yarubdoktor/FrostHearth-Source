@@ -1,0 +1,22 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PASS: wrong password rejected via UI
+PASS: correct password activates dev mode via UI
+PASS: dev resource tool button works via UI
+PASS: dev premium tool button works via UI
+PASS: dev pop tool button works via UI
+PASS: UI build of locked plot works free via actual build button
+PASS: UI barracks build starts via actual build button
+PASS: floating dev button visible in dev mode
+PASS: training starts via actual army window button (zero resources)
+PASS: research starts via actual research window button (zero resources)
+PASS: hero summon works via actual window button (zero aurora, no charge)
+PASS: finish-all tool completes build+train+research via UI button
+PASS: heal tool returns wounded to troops via UI button
+PASS: UI gates restored for normal player after toggle off
+PASS: saved game has dev mode off after toggle
+ALL UI TESTS PASSED
+WARNING: 21 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 12 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

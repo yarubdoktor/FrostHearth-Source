@@ -1,0 +1,36 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PASS: four large building plots, not four tiny old tiles
+PASS: footprint and separation match rotated city models
+PASS: green outside original sample, independent of player position
+PASS: whole-world setting reaches every environment shader
+PASS: all 420 demo cities retained
+PASS: no overlapping city reservations among any pair
+PASS: every city passes terrain, resource, beast, landmark and city clearance
+PASS: default saved home remains valid
+PASS: reject placement beside occupied city
+PASS: rejection does not move city
+PASS: rejection does not rewrite save
+PASS: reject placing city on gathering site
+PASS: reject lake
+PASS: reject map edge
+PASS: reject invalid or unexplored full footprint
+PASS: valid nearby relocation space exists
+PASS: valid four-cell preview enables relocation
+PASS: four plot faces and six grid boundaries shown
+PASS: invalid four-cell preview blocks relocation
+PASS: closing selection hides footprint preview
+PASS: revealing centre alone does not allow hidden footprint
+PASS: valid relocation accepted
+PASS: entire physical city footprint registered
+PASS: old city footprint released
+PASS: new location persists
+PASS: return to original valid home accepted
+PASS: all resource destinations intact after city placement and relocation
+PASS: winter comparison remains available globally
+PASS: green comparison restored globally
+STAGE12.1: 29 checks, 0 failures
+WARNING: 11 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 5 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

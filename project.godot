@@ -1,0 +1,39 @@
+; Engine configuration file.
+config_version=5
+
+[application]
+
+config/name="مدينة الصقيع"
+config/description="Frost City Stage 31: all small tasks, profile achievements, gear art, completion highlights and march timers"
+config/version="31"
+run/main_scene="res://city.tscn"
+config/features=PackedStringArray("4.7", "Mobile")
+
+[autoload]
+
+Game="*res://scripts/game_state.gd"
+Sound="*res://scripts/sound_manager.gd"
+
+[debug]
+
+gdscript/warnings/unused_signal=0
+gdscript/warnings/unused_private_class_variable=0
+
+[display]
+
+window/size/viewport_width=720
+window/size/viewport_height=1280
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+window/handheld/orientation=1
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=false
+pointing/emulate_mouse_from_touch=true
+
+[rendering]
+
+renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true
+anti_aliasing/quality/msaa_3d=1

@@ -1,0 +1,59 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PASS: resource presentation component loaded
+PASS: mission rows respect actual slot limit
+PASS: idle panel does not invent gathering troops
+PASS: phase boundary 109.0 -> outbound
+PASS: phase boundary 110.0 -> gather
+PASS: phase boundary 129.0 -> gather
+PASS: phase boundary 130.0 -> return
+PASS: phase boundary 140.0 -> done
+PASS: hours minutes seconds timer
+PASS: timer never negative
+PASS: zero-work scout returns immediately
+PASS: gather progress follows real work interval
+PASS: larger wood site geometry
+PASS: visible city is at least twice wood site width
+SKIP: actual wood MultiMesh transform readback requires rendered backend
+PASS: larger coal site geometry
+PASS: visible city is at least twice coal site width
+SKIP: actual coal MultiMesh transform readback requires rendered backend
+PASS: larger iron site geometry
+PASS: visible city is at least twice iron site width
+SKIP: actual iron MultiMesh transform readback requires rendered backend
+PASS: larger food site geometry
+PASS: visible city is at least twice food site width
+SKIP: actual food MultiMesh transform readback requires rendered backend
+PASS: home city uses enlarged presentation scale
+PASS: all city types use visual target records
+PASS: forest clearance around enlarged cities is configured
+PASS: enlarged default city tops remain below fog plane
+PASS: city can be selected at enlarged edge
+PASS: tap at enlarged city edge opens correct city
+PASS: larger city hit area respects unexplored land
+PASS: unchanged resource coordinates from stage9
+PASS: touch tolerance includes expanded site
+PASS: unexplored site cannot be picked
+PASS: existing gather mission starts without changing game logic
+PASS: existing gathering duration preserved
+PASS: active site marker appears only during gathering
+PASS: mission panel shows real gathering state
+PASS: remaining phase timer displayed
+PASS: presentation does not mutate saved mission dictionary
+PASS: existing save format reloads successfully
+PASS: gather indicator restored from saved mission times
+PASS: active icon reused instead of rebuilt per frame
+PASS: two squads at one resource use one site marker
+PASS: same-site squad count visible
+PASS: gather marker removed on departure
+PASS: return phase distinguished from collection
+PASS: outbound squad never shows collecting icon
+PASS: outbound ETA distinguished from collection
+PASS: bounded nearby level marker pool
+PASS: nearby explored resources show level badges
+PASS: zoomed-out map hides level clutter
+PASS: completed missions leave no stale site or panel row
+PASS: forest clearing follows relocated home
+PASS: city label retains correct height after relocation
+PASS: enlarged city target follows relocation
+STAGE10: 52 checks, 0 failures

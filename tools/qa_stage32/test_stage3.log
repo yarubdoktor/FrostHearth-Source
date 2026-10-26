@@ -1,0 +1,31 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PASS: init + front schedule (15 min warning)
+PASS: venture start (troops reserved)
+PASS: double venture rejected
+PASS: battle resolved at arrival, survivors still returning
+PASS: exactly-once return + conservation (home=55, wounded=4, dead=1)
+PASS: infirmary-full overflow becomes dead (home=55, dead=5)
+PASS: venture rejected after capture
+PASS: vent heat effect (+4)
+PASS: front drop (-6 during front, 0 otherwise)
+PASS: old stage-2 save migration (2h absence, no historical front)
+PASS: dev build free/instant, unlock requirements bypassed (lab+barracks, zero resources)
+PASS: dev speedup free (zero gems)
+PASS: dev train/research/summon/unlock/star-up free, all balances untouched
+PASS: dev_finish_all finished build+train+research (troops +10, tech unlocked)
+PASS: dev unlock/star-up succeed with shards untouched
+PASS: dev hero cap = absolute 50 (49→50 OK, 51 rejected)
+PASS: dev_heal_all returns wounded to troops (conserved)
+PASS: dev_mode persisted
+PASS: dev off restores costs (rejected only for missing resources)
+PASS: normal upgrade succeeds and deducts costs
+PASS: normal train cost-gated, succeeds and deducts
+PASS: normal research cost-gated, succeeds and deducts
+PASS: normal summon cost-gated and deducts aurora
+PASS: normal hero unlock deducts shards
+ALL LOGIC TESTS PASSED
+WARNING: 33 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 11 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

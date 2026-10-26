@@ -1,0 +1,45 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PASS: city has a PowerBar
+PASS: power_label lives inside the bar
+PASS: power value shown
+PASS: power bar is wide (>= 200px): 230
+PASS: bar sits directly under the avatar row
+PASS: bar is right-aligned with the avatar
+PASS: bar fits the 720 px width
+PASS: bar does not overlap the march queue
+PASS: bar does not overlap the temperature chip
+PASS: map has the same PowerBar
+PASS: map power value matches
+PASS: map top bar has chip food
+PASS: map top bar has chip wood
+PASS: map top bar has chip coal
+PASS: map top bar has chip iron
+PASS: map top bar has chip gems
+PASS: map food chip shows the stock
+PASS: top bar fits 720 px
+PASS: map power bar below the resource strip and inside the screen
+PASS: five navigation buttons
+PASS: nav buttons have equal width
+PASS: nav buttons are fully visible (no clipping)
+PASS: nav buttons do not overlap each other
+PASS: enter-city is the right-most button
+PASS: status card and march panel exist
+PASS: status card and march panel do not overlap
+PASS: power bar does not overlap the columns
+PASS: march panel inside width
+PASS: tools sheet hidden at start
+PASS: tools button opens the sheet
+PASS: tools sheet sits above the nav bar
+PASS: tools sheet fits the width
+PASS: tools button toggles the sheet closed
+PASS: using a tool closes the sheet
+PASS: opening the info panel closes the tools sheet
+PASS: info panel never covers the nav bar [P: (14.0, 974.0), S: (692.0, 208.0)] 1192.0
+PASS: refresh updates the food chip
+RESULT: 37/37
+ALL PASSED
+WARNING: 12 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 5 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)
