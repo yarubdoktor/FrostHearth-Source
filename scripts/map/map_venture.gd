@@ -15,9 +15,15 @@ func _open_venture_window(target: Dictionary) -> void:
 	_close_vent_window()
 	vent_win = _panel(Control.PRESET_CENTER)
 	vent_win.custom_minimum_size = Vector2(440, 0)
+	# إطار ثابت الارتفاع يفصل حجم اللوحة عن الحد الأدنى لمحتوى VBox، مع قص آمن داخل الشاشة.
+	var frame := Control.new()
+	frame.custom_minimum_size = Vector2(440, 600)
+	frame.clip_contents = true
+	vent_win.add_child(frame)
 	var v := VBoxContainer.new()
+	v.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	v.add_theme_constant_override("separation", 4)
-	vent_win.add_child(v)
+	frame.add_child(v)
 	var title := Label.new()
 	var tname := "المنفث الحراري"
 	if not target.is_empty() and str(target.get("kind", "vent")) == "hold":
