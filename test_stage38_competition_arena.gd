@@ -1,0 +1,17 @@
+extends SceneTree
+const Arena := preload("res://scripts/competition/competition_arena.gd")
+func _initialize() -> void:
+	var qualifier := Arena.create_layout(Arena.MODE_QUALIFIER)
+	assert(Arena.validate_layout(qualifier))
+	assert(qualifier.get("spawns", []).size() == 4)
+	assert(qualifier.get("max_players") == 4)
+	assert(qualifier.get("objectives", []).size() == 1)
+	var king := Arena.create_layout(Arena.MODE_KING)
+	assert(Arena.validate_layout(king))
+	assert(king.get("sectors", []).size() == 25)
+	assert(king.get("max_players") == 100)
+	assert(king.get("objectives", [])[0].get("id") == "king_building")
+	assert(Arena.create_layout("invalid").is_empty())
+	assert(not Arena.validate_layout({}))
+	print("Stage 38 shared arena contract static checks passed")
+	quit()
