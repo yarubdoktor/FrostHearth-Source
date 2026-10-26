@@ -154,11 +154,19 @@ func _build_terrain() -> void:
 	_add_perimeter(width, depth)
 
 func _build_qualifier() -> void:
+	var city_models: Array[String] = [
+		"res://assets/city_me.glb",
+		"res://assets/city_enemy.glb",
+		"res://assets/city_ally.glb",
+		"res://assets/city_neutral.glb"
+	]
 	for i in range(layout.spawns.size()):
 		var p: Vector2 = layout.spawns[i]
 		var pos := _to_world(p)
 		_add_spawn(pos, i + 1, i == 0)
+		_add_glb_model(city_models[i % city_models.size()], pos, 0.42)
 	_add_objective(_to_world(layout.objectives[0].position), 2.0, GOLD, "مركز السيطرة")
+	_add_glb_model("res://assets/stronghold.glb", _to_world(layout.objectives[0].position), 0.9)
 	# Low ruins and rocky cover are deliberately sparse so spawn points stay readable.
 	for p in [Vector2(500, 250), Vector2(740, 500), Vector2(500, 750), Vector2(260, 500)]:
 		_add_cover(_to_world(p), 0.55)
@@ -172,10 +180,27 @@ func _build_king_map() -> void:
 		if not is_king:
 			_add_cover(pos + Vector3(0.2, 0.0, -0.18), 0.28)
 	_add_objective(_to_world(layout.objectives[0].position), 3.2, GOLD, "مبنى الملك")
+	_add_glb_model("res://assets/fortress.glb", _to_world(layout.objectives[0].position), 1.8)
 	for i in range(8):
 		var angle := TAU * float(i) / 8.0
 		var p := Vector3(cos(angle) * 27.0, 0.0, sin(angle) * 27.0)
 		_add_cover(p, 0.65)
+
+func _add_glb_model(path: String, pos: Vector3, scale_value: float) -> void:
+	# GLB assets are already part of the project; keep a procedural fallback if one fails to load.
+	var packed_scene := load(path) as PackedScene
+	if packed_scene == null:
+		push_warning("Competition arena model unavailable: " + path)
+		return
+	var instance := packed_scene.instantiate()
+	if not instance is Node3D:
+		instance.queue_free()
+		push_warning("Competition arena model root is not Node3D: " + path)
+		return
+	var model: Node3D = instance
+	model.position = pos
+	model.scale = Vector3.ONE * scale_value
+	arena_root.add_child(model)
 
 func _add_sector(pos: Vector3, king: bool) -> void:
 	var tile := MeshInstance3D.new()
