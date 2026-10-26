@@ -175,6 +175,9 @@ func _center_vent_win() -> void:
 	if vent_win == null or ui == null:
 		return
 	var h := minf(vent_win.size.y, minf(ui.size.y - 112.0, 600.0))
+	# نافذة مثبتة بحجم صريح؛ وضع MINSIZE الافتراضي يعيد تمديدها إلى 711px رغم حد الارتفاع.
+	vent_win.set_anchors_and_offsets_preset(Control.PRESET_CENTER, Control.PRESET_MODE_KEEP_SIZE)
+	vent_win.clip_contents = true
 	vent_win.size = Vector2(maxf(vent_win.size.x, 440.0), h)
 	vent_win.position = (ui.size - vent_win.size) * 0.5
 
