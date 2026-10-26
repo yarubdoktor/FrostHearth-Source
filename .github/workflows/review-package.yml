@@ -55,7 +55,7 @@ jobs:
         run: |
           set -euo pipefail
           "$GODOT_BIN" --headless --path . res://test_stage33.tscn 2>&1 | tee "$RUNNER_TEMP/stage33-focused.log"
-          ! grep -E 'SCRIPT ERROR:|Parse Error:|^ERROR:|^FAIL:' "$RUNNER_TEMP/stage33-focused.log"
+          ! grep -E 'SCRIPT ERROR:|Parse Error:|^FAIL:|^FAILURES:' "$RUNNER_TEMP/stage33-focused.log"
 
       - name: Package full project after successful reviews
         if: success()
