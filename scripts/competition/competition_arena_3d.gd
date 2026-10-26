@@ -2,6 +2,7 @@ extends Node3D
 ## Shared 3D arena prototype. It reuses the same layout contract for both modes.
 ## No network, combat resolution, or reward mutation is performed here.
 const Arena := preload("res://scripts/competition/competition_arena.gd")
+const Simulation := preload("res://scripts/competition/competition_simulation.gd")
 const BG := Color("#07111f")
 const GOLD := Color("#f3c86a")
 const BLUE := Color("#5aa9d6")
@@ -19,6 +20,10 @@ var pitch := -0.95
 var distance := 32.0
 var touch_points := {}
 var last_pinch_distance := 0.0
+var simulation_state: Dictionary = {}
+var simulation_units: Dictionary = {}
+var simulation_status: Label
+var simulation_ui_timer := 0.0
 
 func _ready() -> void:
 	_build_environment()
@@ -96,17 +101,37 @@ func _build_ui() -> void:
 	footer.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
 	footer.offset_left = 10
 	footer.offset_right = -10
-	footer.offset_top = -58
+	footer.offset_top = -126
 	footer.offset_bottom = -10
 	footer.add_theme_stylebox_override("panel", _panel_style(Color("#0b1929"), Color("#344a60")))
 	ui.add_child(footer)
+	var footer_content := VBoxContainer.new()
+	footer_content.add_theme_constant_override("separation", 5)
+	footer.add_child(footer_content)
 	var note := Label.new()
-	note.text = "معاينة ثلاثية الأبعاد • اسحب لتدوير • إصبعان للتكبير • لا توجد معركة فعلية"
+	note.text = "معاينة محلية • اسحب لتدوير • إصبعان للتكبير • لا يوجد قتال أو خادم"
 	note.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	note.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	note.add_theme_font_size_override("font_size", 13)
+	note.add_theme_font_size_override("font_size", 12)
 	note.add_theme_color_override("font_color", Color("#b8c8d8"))
-	footer.add_child(note)
+	footer_content.add_child(note)
+	simulation_status = Label.new()
+	simulation_status.text = "المسيرات: جاهزة للمعاينة"
+	simulation_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	simulation_status.add_theme_font_size_override("font_size", 13)
+	simulation_status.add_theme_color_override("font_color", GOLD)
+	footer_content.add_child(simulation_status)
+	var action_row := HBoxContainer.new()
+	action_row.add_theme_constant_override("separation", 8)
+	footer_content.add_child(action_row)
+	var march_button := _button("إرسال الفرقة إلى الهدف", true)
+	march_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	march_button.pressed.connect(_send_preview_march)
+	action_row.add_child(march_button)
+	var reset_button := _button("إعادة التجربة", false)
+	reset_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	reset_button.pressed.connect(_reset_preview_simulation)
+	action_row.add_child(reset_button)
 
 func _set_mode(next_mode: String) -> void:
 	var next_layout: Dictionary = Arena.create_layout(next_mode)
@@ -114,6 +139,8 @@ func _set_mode(next_mode: String) -> void:
 		return
 	mode = next_mode
 	layout = next_layout
+	simulation_units.clear()
+	simulation_state = {}
 	for child in arena_root.get_children():
 		child.queue_free()
 	_build_terrain()
@@ -121,11 +148,83 @@ func _set_mode(next_mode: String) -> void:
 		_build_qualifier()
 	else:
 		_build_king_map()
+	_reset_preview_simulation()
 	info_label.text = "%s | %d لاعب كحد تصميمي" % [str(layout.get("title", "")), int(layout.get("max_players", 0))]
 	distance = 32.0 if mode == Arena.MODE_QUALIFIER else 72.0
 	yaw = 0.0
 	pitch = -0.95
 	_update_camera()
+
+func _reset_preview_simulation() -> void:
+	var records: Array = [
+		{"player_id": "preview_1", "units": 12, "speed": 42.0},
+		{"player_id": "preview_2", "units": 10, "speed": 38.0},
+		{"player_id": "preview_3", "units": 10, "speed": 38.0},
+		{"player_id": "preview_4", "units": 10, "speed": 38.0}
+	]
+	simulation_state = Simulation.create(layout, records)
+	for key in simulation_units.keys():
+		var old_marker: Node3D = simulation_units[key]
+		if is_instance_valid(old_marker):
+			old_marker.queue_free()
+	simulation_units.clear()
+	if simulation_state.is_empty():
+		if simulation_status != null:
+			simulation_status.text = "تعذر بدء المعاينة المحلية"
+		return
+	for record in records:
+		var pid := str(record.get("player_id", ""))
+		var marker := MeshInstance3D.new()
+		var mesh := CylinderMesh.new()
+		mesh.top_radius = 0.24
+		mesh.bottom_radius = 0.34
+		mesh.height = 0.75
+		mesh.radial_segments = 8
+		marker.mesh = mesh
+		marker.material_override = _material(GOLD if pid == "preview_1" else BLUE, 0.18, 0.18)
+		marker.name = "PreviewUnit_" + pid
+		arena_root.add_child(marker)
+		simulation_units[pid] = marker
+	_update_simulation_visuals()
+
+func _send_preview_march() -> void:
+	if simulation_state.is_empty() or layout.get("objectives", []).is_empty():
+		return
+	var objective_id := str(layout.get("objectives", [])[0].get("id", ""))
+	var next_state: Dictionary = Simulation.issue_march(simulation_state, "preview_1", objective_id)
+	if not next_state.is_empty():
+		simulation_state = next_state
+	_update_simulation_visuals()
+
+func _process(delta: float) -> void:
+	if simulation_state.is_empty():
+		return
+	simulation_state = Simulation.advance(simulation_state, delta)
+	if simulation_state.is_empty():
+		return
+	_update_simulation_visuals()
+	simulation_ui_timer += delta
+	if simulation_ui_timer >= 0.2:
+		simulation_ui_timer = 0.0
+		var objective_id := str(layout.get("objectives", [])[0].get("id", ""))
+		var objective: Dictionary = Simulation.objective_snapshot(simulation_state, objective_id)
+		var owner_id := str(objective.get("owner_id", ""))
+		var owner_text := "بلا مالك" if owner_id.is_empty() else "المالك: " + owner_id
+		var progress := float(objective.get("progress", 0.0))
+		var player: Dictionary = Simulation.player_snapshot(simulation_state, "preview_1")
+		var march_text := "في الطريق" if bool(player.get("marching", false)) else "وصل/متوقف"
+		simulation_status.text = "%s • السيطرة %.0f%% • فرقتك: %s" % [owner_text, progress, march_text]
+
+func _update_simulation_visuals() -> void:
+	for pid in simulation_units.keys():
+		var marker: Node3D = simulation_units[pid]
+		if not is_instance_valid(marker):
+			continue
+		var snapshot: Dictionary = Simulation.player_snapshot(simulation_state, str(pid))
+		if snapshot.is_empty():
+			continue
+		var map_position: Vector2 = snapshot.get("position", Vector2.ZERO)
+		marker.position = _to_world(map_position) + Vector3(0.0, 0.42, 0.0)
 
 func _build_terrain() -> void:
 	var width := float(layout.get("width", 1000)) * MAP_SCALE
