@@ -1,0 +1,49 @@
+name: Import FrostHearth Stage 33
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  import-stage33:
+    if: ${{ !contains(github.event.head_commit.message, '[stage33-imported]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out destination repository
+        uses: actions/checkout@v4
+
+      - name: Download and unpack stage 33
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 \
+            "https://raw.githubusercontent.com/yarubdoktor/Yarub/main/frost_city_godot_stage33.zip" \
+            -o /tmp/frost_city_godot_stage33.zip
+          mkdir -p /tmp/stage33
+          unzip -q /tmp/frost_city_godot_stage33.zip -d /tmp/stage33
+          shopt -s dotglob
+          entries=(/tmp/stage33/*)
+          if [ "${#entries[@]}" -eq 1 ] && [ -d "${entries[0]}" ]; then
+            cp -a "${entries[0]}"/. .
+          else
+            cp -a /tmp/stage33/. .
+          fi
+          rm -f /tmp/frost_city_godot_stage33.zip
+
+      - name: Commit unpacked project files
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "Import FrostHearth stage 33 [stage33-imported]"
+          git push
