@@ -349,9 +349,12 @@ var march_vis := {}   # start time -> {troop, line, im}
 
 
 func _march_pos(m: Dictionary, t: float) -> Array:
-	## [الموقع، الوجهة الحالية للرسم]
-	var a := Vector3(m["fx"], 0, m["fy"])
-	var b := Vector3(m["tx"], 0, m["ty"])
+	## [الموقع، الوجهة الحالية للرسم]. البيانات القديمة/الاختبارية غير المكتملة لا تكسر إطار الخريطة.
+	var fallback := Vector3(home_pos.x, 0.0, home_pos.z)
+	if not m.has("fx") or not m.has("fy") or not m.has("tx") or not m.has("ty"):
+		return [fallback, fallback]
+	var a := Vector3(float(m["fx"]), 0.0, float(m["fy"]))
+	var b := Vector3(float(m["tx"]), 0.0, float(m["ty"]))
 	if t < float(m["arrive"]):
 		var k := inverse_lerp(float(m["start"]), float(m["arrive"]), t)
 		return [a.lerp(b, k), b]
