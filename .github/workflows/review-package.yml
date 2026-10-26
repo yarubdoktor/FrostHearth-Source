@@ -1,0 +1,90 @@
+name: FrostHearth Full Review and Package
+
+on:
+  push:
+    branches:
+      - "work/**"
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  review:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 35
+    steps:
+      - name: Check out complete project
+        uses: actions/checkout@v4
+
+      - name: Install tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y unzip zip python3
+          curl -fL --retry 3 \
+            "https://github.com/godotengine/godot/releases/download/4.7.2-stable/Godot_v4.7.2-stable_linux.x86_64.zip" \
+            -o /tmp/godot.zip
+          mkdir -p "$HOME/godot"
+          unzip -q /tmp/godot.zip -d "$HOME/godot"
+          GODOT_BIN="$(find "$HOME/godot" -maxdepth 2 -type f -name 'Godot*' -perm -u+x | head -n 1)"
+          if [ -z "$GODOT_BIN" ]; then
+            GODOT_BIN="$(find "$HOME/godot" -maxdepth 2 -type f -name 'Godot*' | head -n 1)"
+            chmod +x "$GODOT_BIN"
+          fi
+          echo "GODOT_BIN=$GODOT_BIN" >> "$GITHUB_ENV"
+          "$GODOT_BIN" --version
+
+      - name: Review 1 — import and run full automated test suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 tools/run_tests.py --godot "$GODOT_BIN" --output "$RUNNER_TEMP/frosthearth-qa" --timeout 120
+
+      - name: Review 2 — verify source layering and file-size rules
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 tools/split_check.py
+
+      - name: Review 3 — verify Stage 33 focused war tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$GODOT_BIN" --headless --path . res://test_stage33.tscn 2>&1 | tee "$RUNNER_TEMP/stage33-focused.log"
+          ! grep -E 'SCRIPT ERROR:|Parse Error:|^ERROR:|^FAIL:' "$RUNNER_TEMP/stage33-focused.log"
+
+      - name: Package full project after successful reviews
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          zip -qr "$RUNNER_TEMP/FrostHearth-Reviewed.zip" . \
+            -x ".git/*" ".godot/*" "qa_results/*"
+          unzip -t "$RUNNER_TEMP/FrostHearth-Reviewed.zip" | tail -n 2
+          sha256sum "$RUNNER_TEMP/FrostHearth-Reviewed.zip" | tee "$RUNNER_TEMP/package.sha256"
+
+      - name: Upload reviewed full project package
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: FrostHearth-Reviewed-Full-Project
+          path: |
+            ${{ runner.temp }}/FrostHearth-Reviewed.zip
+            ${{ runner.temp }}/package.sha256
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload QA logs even when a review fails
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: FrostHearth-QA-Review-Logs
+          path: |
+            ${{ runner.temp }}/frosthearth-qa/**
+            ${{ runner.temp }}/stage33-focused.log
+          if-no-files-found: ignore
+          retention-days: 14
