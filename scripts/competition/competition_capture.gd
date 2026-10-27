@@ -69,6 +69,30 @@ static func set_presence(state: Dictionary, player_id: String, objective_id: Str
 	updated["objectives"] = objectives
 	return updated
 
+static func set_owner(state: Dictionary, objective_id: String, owner_id: String, progress: float = 100.0) -> Dictionary:
+	var updated := state.duplicate(true)
+	if not _valid_state(updated):
+		return {}
+	var oid := objective_id.strip_edges()
+	var pid := owner_id.strip_edges()
+	if not updated.get("player_ids", []).has(pid) or not is_finite(progress) or progress < 0.0 or progress > 100.0:
+		return {}
+	var objectives: Array = updated.get("objectives", [])
+	var found := false
+	for i in range(objectives.size()):
+		var objective: Dictionary = objectives[i]
+		if str(objective.get("objective_id", "")) != oid:
+			continue
+		objective["owner_id"] = pid
+		objective["progress"] = progress
+		objectives[i] = objective
+		found = true
+		break
+	if not found:
+		return {}
+	updated["objectives"] = objectives
+	return updated
+
 static func advance(state: Dictionary, delta_seconds: float) -> Dictionary:
 	var updated := state.duplicate(true)
 	if not _valid_state(updated) or not is_finite(delta_seconds) or delta_seconds < 0.0:
