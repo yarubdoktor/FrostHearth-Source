@@ -253,13 +253,14 @@ func _create_battle_unit(is_hero: bool, index: int) -> Node3D:
 	var root := Node3D.new()
 	var packed_scene := load("res://assets/troop.glb") as PackedScene
 	if packed_scene != null:
-		var model := packed_scene.instantiate()
-		if model is Node3D:
-			root.add_child(model)
-			model.position = Vector3.ZERO
-			model.scale = Vector3.ONE * (0.56 if is_hero else 0.38)
+		var model_instance: Node = packed_scene.instantiate()
+		var model_node := model_instance as Node3D
+		if model_node != null:
+			root.add_child(model_node)
+			model_node.position = Vector3.ZERO
+			model_node.scale = Vector3.ONE * (0.56 if is_hero else 0.38)
 		else:
-			model.queue_free()
+			model_instance.queue_free()
 			_add_procedural_soldier(root, is_hero, index)
 	else:
 		_add_procedural_soldier(root, is_hero, index)
