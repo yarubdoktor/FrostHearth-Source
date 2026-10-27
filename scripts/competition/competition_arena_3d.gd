@@ -699,6 +699,15 @@ func _add_objective(pos: Vector3, radius: float, color: Color, label: String) ->
 	light.light_energy = 1.8
 	light.omni_range = radius * 5.0
 	arena_root.add_child(light)
+	var target_label := Label3D.new()
+	target_label.text = label
+	target_label.position = pos + Vector3(0.0, radius * 2.5, 0.0)
+	target_label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	target_label.font_size = 48
+	target_label.outline_size = 8
+	target_label.modulate = Color("#fff0c2")
+	target_label.pixel_size = 0.01
+	arena_root.add_child(target_label)
 
 func _add_cover(pos: Vector3, scale_value: float) -> void:
 	var rock := MeshInstance3D.new()
