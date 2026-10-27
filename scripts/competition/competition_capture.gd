@@ -33,6 +33,8 @@ static func create_state(layout: Dictionary, player_ids: Array) -> Dictionary:
 			"objective_id": objective_id,
 			"owner_id": "",
 			"progress": 0.0,
+			"garrison_units": 12 if str(layout.get("mode", "")) == MODE_QUALIFIER else 24,
+			"burned": false,
 			"presence": {}
 		})
 	return {
@@ -92,6 +94,23 @@ static func set_owner(state: Dictionary, objective_id: String, owner_id: String,
 		return {}
 	updated["objectives"] = objectives
 	return updated
+
+static func set_garrison(state: Dictionary, objective_id: String, units: int, burned: bool) -> Dictionary:
+	var updated := state.duplicate(true)
+	if not _valid_state(updated) or units < 0 or units > 1000000:
+		return {}
+	var oid := objective_id.strip_edges()
+	var objectives: Array = updated.get("objectives", [])
+	for i in range(objectives.size()):
+		var objective: Dictionary = objectives[i]
+		if str(objective.get("objective_id", "")) != oid:
+			continue
+		objective["garrison_units"] = units
+		objective["burned"] = burned
+		objectives[i] = objective
+		updated["objectives"] = objectives
+		return updated
+	return {}
 
 static func advance(state: Dictionary, delta_seconds: float) -> Dictionary:
 	var updated := state.duplicate(true)
@@ -156,6 +175,8 @@ static func objective_summary(state: Dictionary, objective_id: String) -> Dictio
 				"objective_id": str(objective.get("objective_id", "")),
 				"owner_id": str(objective.get("owner_id", "")),
 				"progress": float(objective.get("progress", 0.0)),
+				"garrison_units": maxi(0, int(objective.get("garrison_units", 0))),
+				"burned": bool(objective.get("burned", false)),
 				"present_units": present_units,
 				"contesting_players": contesting_players,
 				"source": "local_preview",
