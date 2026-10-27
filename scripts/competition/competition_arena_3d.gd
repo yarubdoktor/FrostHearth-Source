@@ -3,6 +3,7 @@ extends Node3D
 ## No network, combat resolution, or reward mutation is performed here.
 const Arena := preload("res://scripts/competition/competition_arena.gd")
 const Simulation := preload("res://scripts/competition/competition_simulation.gd")
+const Combat := preload("res://scripts/competition/competition_combat.gd")
 const BG := Color("#07111f")
 const GOLD := Color("#f3c86a")
 const BLUE := Color("#5aa9d6")
@@ -24,6 +25,14 @@ var simulation_state: Dictionary = {}
 var simulation_units: Dictionary = {}
 var simulation_status: Label
 var simulation_ui_timer := 0.0
+var target_fortress: Node3D
+var battle_result: Dictionary = {}
+var battle_started := false
+var battle_elapsed := 0.0
+var battle_units: Array[Node3D] = []
+var battle_arrows: Array[Dictionary] = []
+var fire_nodes: Array[Node3D] = []
+var battle_clock := 0.0
 
 func _ready() -> void:
 	_build_environment()
@@ -146,6 +155,13 @@ func _set_mode(next_mode: String) -> void:
 	layout = next_layout
 	simulation_units.clear()
 	simulation_state = {}
+	target_fortress = null
+	battle_result.clear()
+	battle_started = false
+	battle_elapsed = 0.0
+	battle_units.clear()
+	battle_arrows.clear()
+	fire_nodes.clear()
 	for child in arena_root.get_children():
 		child.queue_free()
 	_build_terrain()
@@ -191,6 +207,35 @@ func _reset_preview_simulation() -> void:
 		arena_root.add_child(marker)
 		simulation_units[pid] = marker
 	_update_simulation_visuals()
+	_create_preview_squad()
+
+func _create_preview_squad() -> void:
+	for soldier in battle_units:
+		if is_instance_valid(soldier):
+			soldier.queue_free()
+	battle_units.clear()
+	var base := simulation_units.get("preview_1") as Node3D
+	if base == null:
+		return
+	for i in range(7):
+		var soldier := MeshInstance3D.new()
+		var body := CapsuleMesh.new()
+		body.radius = 0.14
+		body.height = 0.52
+		soldier.mesh = body
+		soldier.material_override = _material(Color("#b8c6d4") if i % 2 == 0 else Color("#425d78"), 0.12, 0.2)
+		soldier.name = "PreviewSoldier_%02d" % i
+		arena_root.add_child(soldier)
+		battle_units.append(soldier)
+	var hero := MeshInstance3D.new()
+	var hero_mesh := CapsuleMesh.new()
+	hero_mesh.radius = 0.22
+	hero_mesh.height = 0.9
+	hero.mesh = hero_mesh
+	hero.material_override = _material(GOLD, 0.25, 0.35)
+	hero.name = "PreviewHero"
+	arena_root.add_child(hero)
+	battle_units.append(hero)
 
 func _send_preview_march() -> void:
 	if simulation_state.is_empty() or layout.get("objectives", []).is_empty():
@@ -218,6 +263,14 @@ func _process(delta: float) -> void:
 	if simulation_state.is_empty():
 		return
 	_update_simulation_visuals()
+	battle_clock += delta
+	_update_battle_visuals(delta)
+	var lead_player: Dictionary = Simulation.player_snapshot(simulation_state, "preview_1")
+	if not battle_started and not lead_player.is_empty() and not bool(lead_player.get("marching", false)) and str(lead_player.get("target_objective", "")).length() > 0:
+		var target: Vector2 = layout.get("objectives", [])[0].get("position", Vector2.ZERO)
+		var lead_pos: Vector2 = lead_player.get("position", Vector2.ZERO)
+		if lead_pos.distance_to(target) <= 18.0:
+			_resolve_preview_battle()
 	simulation_ui_timer += delta
 	if simulation_ui_timer >= 0.2:
 		simulation_ui_timer = 0.0
@@ -230,7 +283,122 @@ func _process(delta: float) -> void:
 		var march_text := "في الطريق" if bool(player.get("marching", false)) else "وصل/متوقف"
 		var present_units := int(objective.get("present_units", 0))
 		var contesting_players := int(objective.get("contesting_players", 0))
-		simulation_status.text = "%s • السيطرة %.0f%% • قوات الهدف: %d • المتنافسون: %d • فرقتك: %s" % [owner_text, progress, present_units, contesting_players, march_text]
+		var battle_text := ""
+		if not battle_result.is_empty():
+			battle_text = " • النتيجة: " + ("انتصار" if str(battle_result.get("outcome", "")) == "victory" else "هزيمة")
+		simulation_status.text = "%s • السيطرة %.0f%% • قوات الهدف: %d • المتنافسون: %d • فرقتك: %s%s" % [owner_text, progress, present_units, contesting_players, march_text, battle_text]
+
+func _resolve_preview_battle() -> void:
+	if battle_started:
+		return
+	battle_started = true
+	battle_elapsed = 0.0
+	var attacker_units := int(Simulation.player_snapshot(simulation_state, "preview_1").get("units", 12))
+	var defense_units := 12 if mode == Arena.MODE_QUALIFIER else 24
+	var defense_fortification := 4.0 if mode == Arena.MODE_QUALIFIER else 16.0
+	battle_result = Combat.resolve(
+		{"units": attacker_units, "attack": 1.2, "hero_power": 8.0},
+		{"units": defense_units, "attack": 1.0, "fortification": defense_fortification}
+	)
+	if battle_result.is_empty():
+		simulation_status.text = "تعذر حساب نتيجة المعركة"
+		return
+	if str(battle_result.get("outcome", "")) == "victory":
+		_start_target_fire()
+	else:
+		_clear_target_fire()
+	_spawn_arrow_volley()
+
+func _spawn_arrow_volley() -> void:
+	var target := _to_world(layout.get("objectives", [])[0].get("position", Vector2.ZERO)) + Vector3(0.0, 1.0, 0.0)
+	var origin := _to_world(Vector2(500, 500)) + Vector3(-4.5, 1.1, 0.0)
+	for i in range(9):
+		var arrow := MeshInstance3D.new()
+		var mesh := CylinderMesh.new()
+		mesh.top_radius = 0.025
+		mesh.bottom_radius = 0.025
+		mesh.height = 0.72
+		arrow.mesh = mesh
+		arrow.material_override = _material(Color("#e9d5a1"), 0.18, 0.55)
+		arrow.position = origin + Vector3(float(i % 3) * 0.32, float(i / 3) * 0.22, float(i % 2) * 0.28)
+		var direction := (target - arrow.position).normalized()
+		arrow.look_at(arrow.position + direction, Vector3.UP)
+		arena_root.add_child(arrow)
+		battle_arrows.append({"node": arrow, "target": target, "speed": 13.0 + float(i % 3), "life": 2.0})
+
+func _update_battle_visuals(delta: float) -> void:
+	if not battle_started:
+		var base := simulation_units.get("preview_1") as Node3D
+		if base != null:
+			for i in range(battle_units.size()):
+				var unit := battle_units[i]
+				if not is_instance_valid(unit):
+					continue
+				var col := float(i % 4) - 1.5
+				var row := float(i / 4)
+				unit.position = base.position + Vector3(col * 0.42, 0.0, 0.6 + row * 0.48 + sin(battle_clock * 5.0 + float(i)) * 0.06)
+				unit.rotation.y = sin(battle_clock * 2.5 + float(i)) * 0.08
+	else:
+		for i in range(battle_units.size()):
+			var unit := battle_units[i]
+			if not is_instance_valid(unit):
+				continue
+			var angle := TAU * float(i) / float(maxi(1, battle_units.size()))
+			var spread := 3.0 + minf(battle_elapsed * 0.35, 2.5)
+			var center := _to_world(layout.get("objectives", [])[0].get("position", Vector2.ZERO))
+			unit.position = center + Vector3(cos(angle) * spread, 0.0, sin(angle) * spread) + Vector3(0.0, absf(sin(battle_clock * 9.0 + float(i))) * 0.08, 0.0)
+			unit.rotation.y = -angle + sin(battle_clock * 8.0 + float(i)) * 0.35
+	for i in range(battle_arrows.size() - 1, -1, -1):
+		var arrow_data: Dictionary = battle_arrows[i]
+		var arrow := arrow_data.get("node") as Node3D
+		if not is_instance_valid(arrow):
+			battle_arrows.remove_at(i)
+			continue
+		var target: Vector3 = arrow_data.get("target", Vector3.ZERO)
+		arrow.position = arrow.position.move_toward(target, float(arrow_data.get("speed", 13.0)) * delta)
+		arrow_data["life"] = float(arrow_data.get("life", 0.0)) - delta
+		if arrow.position.distance_to(target) < 0.3 or float(arrow_data["life"]) <= 0.0:
+			arrow.queue_free()
+			battle_arrows.remove_at(i)
+		else:
+			battle_arrows[i] = arrow_data
+	for i in range(fire_nodes.size()):
+		var flame := fire_nodes[i]
+		if is_instance_valid(flame):
+			var pulse := 0.85 + absf(sin(battle_clock * 7.0 + float(i))) * 0.45
+			flame.scale = Vector3(pulse, pulse, pulse)
+
+func _start_target_fire() -> void:
+	if not fire_nodes.is_empty():
+		return
+	if target_fortress != null and is_instance_valid(target_fortress):
+		target_fortress.modulate = Color("#ffb36a")
+		for i in range(5):
+			var flame := MeshInstance3D.new()
+			var cone := ConeMesh.new()
+			cone.bottom_radius = 0.24 if i % 2 == 0 else 0.16
+			cone.height = 0.9 + float(i % 3) * 0.22
+			flame.mesh = cone
+			flame.material_override = _material(Color("#ff6a1a") if i % 2 == 0 else Color("#ffca55"), 0.0, 0.9)
+			var offset := Vector3(cos(TAU * float(i) / 5.0) * 0.65, 1.1 + float(i % 2) * 0.35, sin(TAU * float(i) / 5.0) * 0.65)
+			flame.position = target_fortress.position + offset
+			arena_root.add_child(flame)
+			fire_nodes.append(flame)
+		var fire_light := OmniLight3D.new()
+		fire_light.position = target_fortress.position + Vector3(0.0, 2.2, 0.0)
+		fire_light.light_color = Color("#ff6a1a")
+		fire_light.light_energy = 1.8
+		fire_light.omni_range = 8.0
+		arena_root.add_child(fire_light)
+		fire_nodes.append(fire_light)
+
+func _clear_target_fire() -> void:
+	for node in fire_nodes:
+		if is_instance_valid(node):
+			node.queue_free()
+	fire_nodes.clear()
+	if target_fortress != null and is_instance_valid(target_fortress):
+		target_fortress.modulate = Color.WHITE
 
 func _update_simulation_visuals() -> void:
 	for pid in simulation_units.keys():
@@ -282,7 +450,7 @@ func _build_qualifier() -> void:
 		_add_spawn(pos, i + 1, i == 0)
 		_add_glb_model(city_models[i % city_models.size()], pos, 0.42)
 	_add_objective(_to_world(layout.objectives[0].position), 2.0, GOLD, "مركز السيطرة")
-	_add_glb_model("res://assets/stronghold.glb", _to_world(layout.objectives[0].position), 0.9)
+	target_fortress = _add_glb_model("res://assets/stronghold.glb", _to_world(layout.objectives[0].position), 0.9)
 	# Low ruins and rocky cover are deliberately sparse so spawn points stay readable.
 	for p in [Vector2(500, 250), Vector2(740, 500), Vector2(500, 750), Vector2(260, 500)]:
 		_add_cover(_to_world(p), 0.55)
@@ -296,27 +464,28 @@ func _build_king_map() -> void:
 		if not is_king:
 			_add_cover(pos + Vector3(0.2, 0.0, -0.18), 0.28)
 	_add_objective(_to_world(layout.objectives[0].position), 3.2, GOLD, "مبنى الملك")
-	_add_glb_model("res://assets/fortress.glb", _to_world(layout.objectives[0].position), 1.8)
+	target_fortress = _add_glb_model("res://assets/fortress.glb", _to_world(layout.objectives[0].position), 1.8)
 	for i in range(8):
 		var angle := TAU * float(i) / 8.0
 		var p := Vector3(cos(angle) * 27.0, 0.0, sin(angle) * 27.0)
 		_add_cover(p, 0.65)
 
-func _add_glb_model(path: String, pos: Vector3, scale_value: float) -> void:
+func _add_glb_model(path: String, pos: Vector3, scale_value: float) -> Node3D:
 	# GLB assets are already part of the project; keep a procedural fallback if one fails to load.
 	var packed_scene := load(path) as PackedScene
 	if packed_scene == null:
 		push_warning("Competition arena model unavailable: " + path)
-		return
+		return null
 	var instance := packed_scene.instantiate()
 	if not instance is Node3D:
 		instance.queue_free()
 		push_warning("Competition arena model root is not Node3D: " + path)
-		return
+		return null
 	var model: Node3D = instance
 	model.position = pos
 	model.scale = Vector3.ONE * scale_value
 	arena_root.add_child(model)
+	return model
 
 func _add_sector(pos: Vector3, king: bool) -> void:
 	var tile := MeshInstance3D.new()
