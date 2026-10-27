@@ -32,6 +32,8 @@ var battle_elapsed := 0.0
 var battle_units: Array[Node3D] = []
 var battle_arrows: Array[Dictionary] = []
 var fire_nodes: Array[Node3D] = []
+var smoke_nodes: Array[Dictionary] = []
+var defender_units: Array[Node3D] = []
 var battle_clock := 0.0
 
 func _ready() -> void:
@@ -118,7 +120,7 @@ func _build_ui() -> void:
 	footer_content.add_theme_constant_override("separation", 5)
 	footer.add_child(footer_content)
 	var note := Label.new()
-	note.text = "معاينة محلية • اسحب لتدوير • إصبعان للتكبير • لا يوجد قتال أو خادم"
+	note.text = "اختبار محلي فقط • الهدف الوهمي: حصن الوادي • اسحب لتدوير • إصبعان للتكبير"
 	note.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	note.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	note.add_theme_font_size_override("font_size", 12)
@@ -162,6 +164,8 @@ func _set_mode(next_mode: String) -> void:
 	battle_units.clear()
 	battle_arrows.clear()
 	fire_nodes.clear()
+	smoke_nodes.clear()
+	defender_units.clear()
 	for child in arena_root.get_children():
 		child.queue_free()
 	_build_terrain()
@@ -235,6 +239,12 @@ func _create_preview_squad() -> void:
 	hero.name = "PreviewHero"
 	arena_root.add_child(hero)
 	battle_units.append(hero)
+	for i in range(5):
+		var defender := _create_battle_unit(false, i + 10)
+		defender.name = "PreviewDefender_%02d" % i
+		arena_root.add_child(defender)
+		defender_units.append(defender)
+		defender.visible = false
 
 func _create_battle_unit(is_hero: bool, index: int) -> Node3D:
 	var root := Node3D.new()
@@ -305,6 +315,8 @@ func _process(delta: float) -> void:
 		return
 	_update_simulation_visuals()
 	battle_clock += delta
+	if battle_started:
+		battle_elapsed += delta
 	_update_battle_visuals(delta)
 	var lead_player: Dictionary = Simulation.player_snapshot(simulation_state, "preview_1")
 	if not battle_started and not lead_player.is_empty() and not bool(lead_player.get("marching", false)) and str(lead_player.get("target_objective", "")).length() > 0:
@@ -337,7 +349,7 @@ func _resolve_preview_battle() -> void:
 	battle_started = true
 	battle_elapsed = 0.0
 	var attacker_units := int(Simulation.player_snapshot(simulation_state, "preview_1").get("units", 12))
-	var defense_units := 12 if mode == Arena.MODE_QUALIFIER else 24
+	var defense_units := int(Simulation.objective_snapshot(simulation_state, str(layout.get("objectives", [])[0].get("id", ""))).get("garrison_units", 12))
 	var defense_fortification := 4.0 if mode == Arena.MODE_QUALIFIER else 16.0
 	battle_result = Combat.resolve(
 		{"units": attacker_units, "attack": 1.2, "hero_power": 8.0},
@@ -388,16 +400,37 @@ func _update_battle_visuals(delta: float) -> void:
 				unit.rotation.y = sin(battle_clock * 2.5 + float(i)) * 0.08
 				unit.rotation.x = sin(battle_clock * 7.0 + float(i) * 1.7) * 0.12
 	else:
+		var center := _to_world(layout.get("objectives", [])[0].get("position", Vector2.ZERO))
+		var attacker_start := maxi(1, int(battle_result.get("attacker_units_start", 12)))
+		var attacker_remaining := maxi(0, int(battle_result.get("attacker_units_remaining", attacker_start)))
+		var attacker_visible := maxi(1, int(round(float(battle_units.size()) * float(attacker_remaining) / float(attacker_start))))
 		for i in range(battle_units.size()):
 			var unit := battle_units[i]
 			if not is_instance_valid(unit):
 				continue
-			var angle := TAU * float(i) / float(maxi(1, battle_units.size()))
-			var spread := 3.0 + minf(battle_elapsed * 0.35, 2.5)
-			var center := _to_world(layout.get("objectives", [])[0].get("position", Vector2.ZERO))
-			unit.position = center + Vector3(cos(angle) * spread, 0.0, sin(angle) * spread) + Vector3(0.0, absf(sin(battle_clock * 9.0 + float(i))) * 0.08, 0.0)
-			unit.rotation.y = -angle + sin(battle_clock * 8.0 + float(i)) * 0.35
-			unit.rotation.x = sin(battle_clock * 11.0 + float(i) * 1.9) * 0.22
+			unit.visible = i < attacker_visible
+			if not unit.visible:
+				continue
+			var angle := TAU * float(i) / float(maxi(1, battle_units.size())) + 0.4
+			var spread := 2.6 + minf(battle_elapsed * 0.35, 2.5)
+			unit.position = center + Vector3(cos(angle) * spread, 0.0, sin(angle) * spread) + Vector3(0.0, absf(sin(battle_clock * 9.0 + float(i)) * 0.08), 0.0)
+			var strike := sin(battle_elapsed * 8.0 + float(i) * 1.4)
+			unit.rotation.y = -angle + strike * 0.48
+			unit.rotation.x = -0.18 - maxf(0.0, strike) * 0.32
+		var defender_start := maxi(1, int(battle_result.get("defender_units_start", 12)))
+		var defender_remaining := maxi(0, int(battle_result.get("defender_units_remaining", defender_start)))
+		var defender_visible := int(round(float(defender_units.size()) * float(defender_remaining) / float(defender_start)))
+		for i in range(defender_units.size()):
+			var defender := defender_units[i]
+			if not is_instance_valid(defender):
+				continue
+			defender.visible = i < defender_visible
+			if not defender.visible:
+				continue
+			var angle := TAU * float(i) / float(maxi(1, defender_units.size())) + PI
+			defender.position = center + Vector3(cos(angle) * 1.65, 0.0, sin(angle) * 1.65)
+			defender.rotation.y = -angle + sin(battle_elapsed * 7.0 + float(i)) * 0.42
+			defender.rotation.x = -0.12 - maxf(0.0, sin(battle_elapsed * 8.0 + float(i))) * 0.28
 	for i in range(battle_arrows.size() - 1, -1, -1):
 		var arrow_data: Dictionary = battle_arrows[i]
 		var arrow := arrow_data.get("node") as Node3D
