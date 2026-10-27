@@ -327,7 +327,9 @@ func _process(delta: float) -> void:
 		var battle_text := ""
 		if not battle_result.is_empty():
 			battle_text = " • النتيجة: " + ("انتصار" if str(battle_result.get("outcome", "")) == "victory" else "هزيمة")
-		simulation_status.text = "%s • السيطرة %.0f%% • قوات الهدف: %d • المتنافسون: %d • فرقتك: %s%s" % [owner_text, progress, present_units, contesting_players, march_text, battle_text]
+		var garrison := int(objective.get("garrison_units", 0))
+		var target_state := "محترق" if bool(objective.get("burned", false)) else "سليم"
+		simulation_status.text = "الهدف: حصن الوادي التجريبي • %s • الحامية: %d • %s • السيطرة %.0f%% • قوات قرب الهدف: %d • فرقتك: %s%s" % [owner_text, garrison, target_state, progress, present_units, march_text, battle_text]
 
 func _resolve_preview_battle() -> void:
 	if battle_started:
@@ -415,6 +417,38 @@ func _update_battle_visuals(delta: float) -> void:
 		if is_instance_valid(flame):
 			var pulse := 0.85 + absf(sin(battle_clock * 7.0 + float(i))) * 0.45
 			flame.scale = Vector3(pulse, pulse, pulse)
+	for i in range(smoke_nodes.size() - 1, -1, -1):
+		var smoke_data: Dictionary = smoke_nodes[i]
+		var puff := smoke_data.get("node") as Node3D
+		if not is_instance_valid(puff):
+			smoke_nodes.remove_at(i)
+			continue
+		puff.position.y += float(smoke_data.get("rise", 0.4)) * delta
+		smoke_data["life"] = float(smoke_data.get("life", 0.0)) - delta
+		var puff_scale := float(smoke_data.get("scale", 0.25)) + delta * 0.12
+		puff.scale = Vector3.ONE * puff_scale
+		smoke_data["scale"] = puff_scale
+		if float(smoke_data["life"]) <= 0.0:
+			puff.queue_free()
+			smoke_nodes.remove_at(i)
+		else:
+			smoke_nodes[i] = smoke_data
+
+func _spawn_battle_smoke() -> void:
+	if str(battle_result.get("outcome", "")) != "victory" or target_fortress == null:
+		return
+	for i in range(7):
+		var puff := MeshInstance3D.new()
+		var sphere := SphereMesh.new()
+		sphere.radius = 0.32
+		sphere.height = 0.64
+		puff.mesh = sphere
+		puff.material_override = _material(Color("#343b42"), 0.0, 0.0)
+		var angle := TAU * float(i) / 7.0
+		puff.position = target_fortress.position + Vector3(cos(angle) * 0.55, 1.9 + float(i % 3) * 0.25, sin(angle) * 0.55)
+		puff.scale = Vector3.ONE * (0.22 + float(i % 3) * 0.07)
+		arena_root.add_child(puff)
+		smoke_nodes.append({"node": puff, "life": 3.5 + float(i % 3), "rise": 0.28 + float(i % 3) * 0.1, "scale": puff.scale.x})
 
 func _start_target_fire() -> void:
 	if not fire_nodes.is_empty():
@@ -444,6 +478,11 @@ func _clear_target_fire() -> void:
 		if is_instance_valid(node):
 			node.queue_free()
 	fire_nodes.clear()
+	for smoke_data in smoke_nodes:
+		var puff := smoke_data.get("node") as Node3D
+		if is_instance_valid(puff):
+			puff.queue_free()
+	smoke_nodes.clear()
 
 func _update_simulation_visuals() -> void:
 	for pid in simulation_units.keys():
