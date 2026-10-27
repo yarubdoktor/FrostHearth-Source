@@ -36,7 +36,13 @@ func _initialize() -> void:
 	assert(not captured.is_empty())
 	assert(str(Simulation.objective_snapshot(captured, "central_keep").get("owner_id", "")) == "p1")
 	assert(int(Simulation.player_snapshot(captured, "p1").get("units", 0)) == int(win.get("attacker_units_remaining", 0)))
-	var held: Dictionary = Simulation.apply_combat_result(initial, "p1", "central_keep", loss)
+	var losing_army: Dictionary = Simulation.create(layout, [
+		{"player_id": "p1", "units": 8},
+		{"player_id": "p2", "units": 12},
+		{"player_id": "p3", "units": 10},
+		{"player_id": "p4", "units": 10}
+	])
+	var held: Dictionary = Simulation.apply_combat_result(losing_army, "p1", "central_keep", loss)
 	assert(not held.is_empty())
 	assert(str(Simulation.objective_snapshot(held, "central_keep").get("owner_id", "")) == "")
 	assert(str(Simulation.player_snapshot(held, "p1").get("target_objective", "")) == "")
