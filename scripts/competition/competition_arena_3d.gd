@@ -124,10 +124,14 @@ func _build_ui() -> void:
 	var action_row := HBoxContainer.new()
 	action_row.add_theme_constant_override("separation", 8)
 	footer_content.add_child(action_row)
-	var march_button := _button("إرسال الفرقة إلى الهدف", true)
+	var march_button := _button("إرسال فرقتي", true)
 	march_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	march_button.pressed.connect(_send_preview_march)
 	action_row.add_child(march_button)
+	var all_button := _button("إرسال الفرق", true)
+	all_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	all_button.pressed.connect(_send_all_preview_marches)
+	action_row.add_child(all_button)
 	var reset_button := _button("إعادة التجربة", false)
 	reset_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	reset_button.pressed.connect(_reset_preview_simulation)
@@ -196,6 +200,16 @@ func _send_preview_march() -> void:
 		simulation_state = next_state
 	_update_simulation_visuals()
 
+func _send_all_preview_marches() -> void:
+	if simulation_state.is_empty() or layout.get("objectives", []).is_empty():
+		return
+	var objective_id := str(layout.get("objectives", [])[0].get("id", ""))
+	for index in range(1, 5):
+		var next_state: Dictionary = Simulation.issue_march(simulation_state, "preview_%d" % index, objective_id)
+		if not next_state.is_empty():
+			simulation_state = next_state
+	_update_simulation_visuals()
+
 func _process(delta: float) -> void:
 	if simulation_state.is_empty():
 		return
@@ -213,7 +227,9 @@ func _process(delta: float) -> void:
 		var progress := float(objective.get("progress", 0.0))
 		var player: Dictionary = Simulation.player_snapshot(simulation_state, "preview_1")
 		var march_text := "في الطريق" if bool(player.get("marching", false)) else "وصل/متوقف"
-		simulation_status.text = "%s • السيطرة %.0f%% • فرقتك: %s" % [owner_text, progress, march_text]
+		var present_units := int(objective.get("present_units", 0))
+		var contesting_players := int(objective.get("contesting_players", 0))
+		simulation_status.text = "%s • السيطرة %.0f%% • قوات الهدف: %d • المتنافسون: %d • فرقتك: %s" % [owner_text, progress, present_units, contesting_players, march_text]
 
 func _update_simulation_visuals() -> void:
 	for pid in simulation_units.keys():
