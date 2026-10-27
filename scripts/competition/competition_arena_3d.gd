@@ -177,6 +177,15 @@ func _set_mode(next_mode: String) -> void:
 	_update_camera()
 
 func _reset_preview_simulation() -> void:
+	_clear_target_fire()
+	for arrow_data in battle_arrows:
+		var arrow_node := arrow_data.get("node") as Node3D
+		if is_instance_valid(arrow_node):
+			arrow_node.queue_free()
+	battle_arrows.clear()
+	battle_result.clear()
+	battle_started = false
+	battle_elapsed = 0.0
 	var records: Array = [
 		{"player_id": "preview_1", "units": 12, "speed": 42.0},
 		{"player_id": "preview_2", "units": 10, "speed": 38.0},
@@ -372,7 +381,6 @@ func _start_target_fire() -> void:
 	if not fire_nodes.is_empty():
 		return
 	if target_fortress != null and is_instance_valid(target_fortress):
-		target_fortress.modulate = Color("#ffb36a")
 		for i in range(5):
 			var flame := MeshInstance3D.new()
 			var cone := ConeMesh.new()
@@ -397,8 +405,6 @@ func _clear_target_fire() -> void:
 		if is_instance_valid(node):
 			node.queue_free()
 	fire_nodes.clear()
-	if target_fortress != null and is_instance_valid(target_fortress):
-		target_fortress.modulate = Color.WHITE
 
 func _update_simulation_visuals() -> void:
 	for pid in simulation_units.keys():
