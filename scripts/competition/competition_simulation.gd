@@ -136,6 +136,13 @@ static func apply_combat_result(state: Dictionary, player_id: String, objective_
 		return {}
 	var pid := player_id.strip_edges()
 	var oid := objective_id.strip_edges()
+	var objective_found := false
+	for objective in updated.get("layout", {}).get("objectives", []):
+		if str(objective.get("id", "")) == oid:
+			objective_found = true
+			break
+	if not objective_found:
+		return {}
 	var players: Array = updated.get("players", [])
 	var found := false
 	for i in range(players.size()):
