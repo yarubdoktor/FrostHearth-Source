@@ -51,4 +51,5 @@ func _initialize() -> void:
 	assert(not bool(Simulation.objective_snapshot(held, "central_keep").get("burned", true)))
 	assert(int(Simulation.objective_snapshot(held, "central_keep").get("garrison_units", -1)) == int(loss.get("defender_units_remaining", -2)))
 	assert(str(Simulation.player_snapshot(held, "p1").get("target_objective", "")) == "")
+	print("PASS: Stage 46 dummy target battle and garrison state")
 	quit(0)
