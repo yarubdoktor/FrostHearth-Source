@@ -312,6 +312,13 @@ func _resolve_preview_battle() -> void:
 	if battle_result.is_empty():
 		simulation_status.text = "تعذر حساب نتيجة المعركة"
 		return
+	var objective_id := str(layout.get("objectives", [])[0].get("id", ""))
+	var resolved_state: Dictionary = Simulation.apply_combat_result(simulation_state, "preview_1", objective_id, battle_result)
+	if resolved_state.is_empty():
+		battle_result.clear()
+		simulation_status.text = "تعذر تطبيق نتيجة المعركة"
+		return
+	simulation_state = resolved_state
 	if str(battle_result.get("outcome", "")) == "victory":
 		_start_target_fire()
 	else:
@@ -320,7 +327,7 @@ func _resolve_preview_battle() -> void:
 
 func _spawn_arrow_volley() -> void:
 	var target := _to_world(layout.get("objectives", [])[0].get("position", Vector2.ZERO)) + Vector3(0.0, 1.0, 0.0)
-	var origin := _to_world(Vector2(500, 500)) + Vector3(-4.5, 1.1, 0.0)
+	var origin := target + Vector3(-4.5, 1.1, 0.0)
 	for i in range(9):
 		var arrow := MeshInstance3D.new()
 		var mesh := CylinderMesh.new()
