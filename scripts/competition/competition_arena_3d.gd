@@ -330,10 +330,8 @@ func _spawn_arrow_volley() -> void:
 	var origin := target + Vector3(-4.5, 1.1, 0.0)
 	for i in range(9):
 		var arrow := MeshInstance3D.new()
-		var mesh := CylinderMesh.new()
-		mesh.top_radius = 0.025
-		mesh.bottom_radius = 0.025
-		mesh.height = 0.72
+		var mesh := BoxMesh.new()
+		mesh.size = Vector3(0.045, 0.045, 0.72)
 		arrow.mesh = mesh
 		arrow.material_override = _material(Color("#e9d5a1"), 0.18, 0.55)
 		arrow.position = origin + Vector3(float(i % 3) * 0.32, float(i / 3) * 0.22, float(i % 2) * 0.28)
@@ -354,6 +352,7 @@ func _update_battle_visuals(delta: float) -> void:
 				var row := float(i / 4)
 				unit.position = base.position + Vector3(col * 0.42, 0.0, 0.6 + row * 0.48 + sin(battle_clock * 5.0 + float(i)) * 0.06)
 				unit.rotation.y = sin(battle_clock * 2.5 + float(i)) * 0.08
+				unit.rotation.x = sin(battle_clock * 7.0 + float(i) * 1.7) * 0.12
 	else:
 		for i in range(battle_units.size()):
 			var unit := battle_units[i]
@@ -364,6 +363,7 @@ func _update_battle_visuals(delta: float) -> void:
 			var center := _to_world(layout.get("objectives", [])[0].get("position", Vector2.ZERO))
 			unit.position = center + Vector3(cos(angle) * spread, 0.0, sin(angle) * spread) + Vector3(0.0, absf(sin(battle_clock * 9.0 + float(i))) * 0.08, 0.0)
 			unit.rotation.y = -angle + sin(battle_clock * 8.0 + float(i)) * 0.35
+			unit.rotation.x = sin(battle_clock * 11.0 + float(i) * 1.9) * 0.22
 	for i in range(battle_arrows.size() - 1, -1, -1):
 		var arrow_data: Dictionary = battle_arrows[i]
 		var arrow := arrow_data.get("node") as Node3D
