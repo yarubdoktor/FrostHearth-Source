@@ -34,7 +34,7 @@ func _initialize() -> void:
 	counterattack = Capture.advance(counterattack, 2.0)
 	summary = Capture.objective_summary(counterattack, "central_keep")
 	assert(str(summary.get("owner_id", "")) == "")
-	assert(is_equal_approx(float(summary.get("progress", 0.0)), 0.0)
+	assert(is_equal_approx(float(summary.get("progress", 0.0)), 0.0))
 	assert(int(summary.get("present_units", -1)) == 2)
 	assert(int(summary.get("contesting_players", -1)) == 1)
 	assert(not bool(summary.get("authoritative", true)))
