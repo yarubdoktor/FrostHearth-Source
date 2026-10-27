@@ -119,10 +119,21 @@ static func objective_summary(state: Dictionary, objective_id: String) -> Dictio
 		return {}
 	for objective in state.get("objectives", []):
 		if str(objective.get("objective_id", "")) == objective_id.strip_edges():
+			var presence: Dictionary = objective.get("presence", {})
+			var present_units := 0
+			var contesting_players := 0
+			for raw_id in state.get("player_ids", []):
+				var pid := str(raw_id)
+				var units := maxi(0, int(presence.get(pid, 0)))
+				present_units += units
+				if units > 0:
+					contesting_players += 1
 			return {
 				"objective_id": str(objective.get("objective_id", "")),
 				"owner_id": str(objective.get("owner_id", "")),
 				"progress": float(objective.get("progress", 0.0)),
+				"present_units": present_units,
+				"contesting_players": contesting_players,
 				"source": "local_preview",
 				"authoritative": false
 			}
