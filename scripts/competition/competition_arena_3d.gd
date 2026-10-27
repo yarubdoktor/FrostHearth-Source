@@ -344,7 +344,8 @@ func _process(delta: float) -> void:
 			battle_text = " • النتيجة: " + ("انتصار" if str(battle_result.get("outcome", "")) == "victory" else "هزيمة")
 		var garrison := int(objective.get("garrison_units", 0))
 		var target_state := "محترق" if bool(objective.get("burned", false)) else "سليم"
-		simulation_status.text = "الهدف: حصن الوادي التجريبي • %s • الحامية: %d • %s • السيطرة %.0f%% • قوات قرب الهدف: %d • فرقتك: %s%s" % [owner_text, garrison, target_state, progress, present_units, march_text, battle_text]
+		var target_name := "حصن الوادي التجريبي" if mode == Arena.MODE_QUALIFIER else "مبنى الملك التجريبي"
+		simulation_status.text = "الهدف: %s • %s • الحامية: %d • %s • السيطرة %.0f%% • قوات قرب الهدف: %d • فرقتك: %s%s" % [target_name, owner_text, garrison, target_state, progress, present_units, march_text, battle_text]
 
 func _resolve_preview_battle() -> void:
 	if battle_started:
