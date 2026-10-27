@@ -1,6 +1,5 @@
 extends Node3D
-## Shared 3D arena prototype. It reuses the same layout contract for both modes.
-## No network, combat resolution, or reward mutation is performed here.
+## Shared 3D arena prototype with deterministic local combat preview only.
 const Arena := preload("res://scripts/competition/competition_arena.gd")
 const Simulation := preload("res://scripts/competition/competition_simulation.gd")
 const Combat := preload("res://scripts/competition/competition_combat.gd")
@@ -227,6 +226,10 @@ func _create_preview_squad() -> void:
 		if is_instance_valid(soldier):
 			soldier.queue_free()
 	battle_units.clear()
+	for defender in defender_units:
+		if is_instance_valid(defender):
+			defender.queue_free()
+	defender_units.clear()
 	var base := simulation_units.get("preview_1") as Node3D
 	if base == null:
 		return
@@ -588,21 +591,45 @@ func _build_king_map() -> void:
 		_add_cover(p, 0.65)
 
 func _add_glb_model(path: String, pos: Vector3, scale_value: float) -> Node3D:
-	# GLB assets are already part of the project; keep a procedural fallback if one fails to load.
 	var packed_scene := load(path) as PackedScene
 	if packed_scene == null:
 		push_warning("Competition arena model unavailable: " + path)
-		return null
+		return _create_fallback_fortress(pos, scale_value) if path.contains("stronghold") or path.contains("fortress") else null
 	var instance := packed_scene.instantiate()
 	if not instance is Node3D:
 		instance.queue_free()
 		push_warning("Competition arena model root is not Node3D: " + path)
-		return null
+		return _create_fallback_fortress(pos, scale_value) if path.contains("stronghold") or path.contains("fortress") else null
 	var model: Node3D = instance
 	model.position = pos
 	model.scale = Vector3.ONE * scale_value
 	arena_root.add_child(model)
 	return model
+
+func _create_fallback_fortress(pos: Vector3, scale_value: float) -> Node3D:
+	var root := Node3D.new()
+	root.name = "FallbackFortress"
+	root.position = pos
+	root.scale = Vector3.ONE * scale_value
+	var base := MeshInstance3D.new()
+	var base_mesh := BoxMesh.new()
+	base_mesh.size = Vector3(3.0, 1.2, 3.0)
+	base.mesh = base_mesh
+	base.position.y = 0.6
+	base.material_override = _material(Color("#9a9a9a"), 0.15, 0.0)
+	root.add_child(base)
+	for i in range(4):
+		var tower := MeshInstance3D.new()
+		var tower_mesh := CylinderMesh.new()
+		tower_mesh.top_radius = 0.34
+		tower_mesh.bottom_radius = 0.48
+		tower_mesh.height = 2.2
+		tower.mesh = tower_mesh
+		tower.position = Vector3(-1.15 if i < 2 else 1.15, 1.1, -1.15 if i % 2 == 0 else 1.15)
+		tower.material_override = _material(Color("#c2b69e"), 0.2, 0.0)
+		root.add_child(tower)
+	arena_root.add_child(root)
+	return root
 
 func _add_sector(pos: Vector3, king: bool) -> void:
 	var tile := MeshInstance3D.new()
