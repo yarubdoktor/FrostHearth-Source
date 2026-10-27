@@ -18,7 +18,7 @@ func _initialize() -> void:
 	assert(not bool(win.get("authoritative", true)))
 	var loss: Dictionary = Combat.resolve(
 		{"units": 8, "attack": 1.0, "hero_power": 0.0},
-		{"units": 18, "attack": 1.1, "fortification": 8.0}
+		{"units": 12, "attack": 1.1, "fortification": 8.0}
 	)
 	assert(str(loss.get("outcome", "")) == "defeat")
 	assert(not bool(loss.get("target_burns", true)))
@@ -35,6 +35,8 @@ func _initialize() -> void:
 	var captured: Dictionary = Simulation.apply_combat_result(initial, "p1", "central_keep", win)
 	assert(not captured.is_empty())
 	assert(str(Simulation.objective_snapshot(captured, "central_keep").get("owner_id", "")) == "p1")
+	assert(bool(Simulation.objective_snapshot(captured, "central_keep").get("burned", false)))
+	assert(int(Simulation.objective_snapshot(captured, "central_keep").get("garrison_units", -1)) == int(win.get("defender_units_remaining", -2)))
 	assert(int(Simulation.player_snapshot(captured, "p1").get("units", 0)) == int(win.get("attacker_units_remaining", 0)))
 	assert(Simulation.apply_combat_result(initial, "p1", "unknown_keep", win).is_empty())
 	var losing_army: Dictionary = Simulation.create(layout, [
@@ -46,5 +48,7 @@ func _initialize() -> void:
 	var held: Dictionary = Simulation.apply_combat_result(losing_army, "p1", "central_keep", loss)
 	assert(not held.is_empty())
 	assert(str(Simulation.objective_snapshot(held, "central_keep").get("owner_id", "")) == "")
+	assert(not bool(Simulation.objective_snapshot(held, "central_keep").get("burned", true)))
+	assert(int(Simulation.objective_snapshot(held, "central_keep").get("garrison_units", -1)) == int(loss.get("defender_units_remaining", -2)))
 	assert(str(Simulation.player_snapshot(held, "p1").get("target_objective", "")) == "")
 	quit(0)
