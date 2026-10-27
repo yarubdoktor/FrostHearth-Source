@@ -570,7 +570,7 @@ func _build_qualifier() -> void:
 		var pos := _to_world(p)
 		_add_spawn(pos, i + 1, i == 0)
 		_add_glb_model(city_models[i % city_models.size()], pos, 0.42)
-	_add_objective(_to_world(layout.objectives[0].position), 2.0, GOLD, "مركز السيطرة")
+	_add_objective(_to_world(layout.objectives[0].position), 2.0, GOLD, "حصن الوادي التجريبي")
 	target_fortress = _add_glb_model("res://assets/stronghold.glb", _to_world(layout.objectives[0].position), 0.9)
 	# Low ruins and rocky cover are deliberately sparse so spawn points stay readable.
 	for p in [Vector2(500, 250), Vector2(740, 500), Vector2(500, 750), Vector2(260, 500)]:
@@ -584,7 +584,7 @@ func _build_king_map() -> void:
 		_add_sector(pos, is_king)
 		if not is_king:
 			_add_cover(pos + Vector3(0.2, 0.0, -0.18), 0.28)
-	_add_objective(_to_world(layout.objectives[0].position), 3.2, GOLD, "مبنى الملك")
+	_add_objective(_to_world(layout.objectives[0].position), 3.2, GOLD, "مبنى الملك التجريبي")
 	target_fortress = _add_glb_model("res://assets/fortress.glb", _to_world(layout.objectives[0].position), 1.8)
 	for i in range(8):
 		var angle := TAU * float(i) / 8.0
