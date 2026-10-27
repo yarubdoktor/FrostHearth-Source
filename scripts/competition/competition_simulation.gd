@@ -143,6 +143,16 @@ static func apply_combat_result(state: Dictionary, player_id: String, objective_
 			break
 	if not objective_found:
 		return {}
+	var capture_state: Dictionary = updated.get("capture", {}).duplicate(true)
+	var objective_snapshot: Dictionary = Capture.objective_summary(capture_state, oid)
+	if objective_snapshot.is_empty():
+		return {}
+	var defender_start := int(result.get("defender_units_start", -1))
+	var defender_remaining := int(result.get("defender_units_remaining", -1))
+	if defender_start != int(objective_snapshot.get("garrison_units", -2)):
+		return {}
+	if defender_remaining < 0 or defender_remaining > defender_start:
+		return {}
 	var players: Array = updated.get("players", [])
 	var found := false
 	for i in range(players.size()):
@@ -165,11 +175,14 @@ static func apply_combat_result(state: Dictionary, player_id: String, objective_
 	if not found:
 		return {}
 	updated["players"] = players
+	capture_state = Capture.set_garrison(capture_state, oid, defender_remaining, outcome == "victory")
+	if capture_state.is_empty():
+		return {}
 	if outcome == "victory":
-		var capture_state: Dictionary = Capture.set_owner(updated.get("capture", {}), oid, pid, 100.0)
+		capture_state = Capture.set_owner(capture_state, oid, pid, 100.0)
 		if capture_state.is_empty():
 			return {}
-		updated["capture"] = capture_state
+	updated["capture"] = capture_state
 	return updated
 
 static func player_snapshot(state: Dictionary, player_id: String) -> Dictionary:
