@@ -142,7 +142,11 @@ static func apply_combat_result(state: Dictionary, player_id: String, objective_
 		var player: Dictionary = players[i]
 		if str(player.get("player_id", "")) != pid:
 			continue
+		if int(result.get("attacker_units_start", -1)) != int(player.get("units", -2)):
+			return {}
 		var remaining := maxi(0, int(result.get("attacker_units_remaining", 0)))
+		if remaining > int(player.get("units", 0)):
+			return {}
 		player["units"] = remaining
 		if outcome == "defeat":
 			player["target_objective"] = ""
