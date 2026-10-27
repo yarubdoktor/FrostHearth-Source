@@ -227,24 +227,56 @@ func _create_preview_squad() -> void:
 	if base == null:
 		return
 	for i in range(7):
-		var soldier := MeshInstance3D.new()
-		var body := CapsuleMesh.new()
-		body.radius = 0.14
-		body.height = 0.52
-		soldier.mesh = body
-		soldier.material_override = _material(Color("#b8c6d4") if i % 2 == 0 else Color("#425d78"), 0.12, 0.2)
+		var soldier := _create_battle_unit(false, i)
 		soldier.name = "PreviewSoldier_%02d" % i
 		arena_root.add_child(soldier)
 		battle_units.append(soldier)
-	var hero := MeshInstance3D.new()
-	var hero_mesh := CapsuleMesh.new()
-	hero_mesh.radius = 0.22
-	hero_mesh.height = 0.9
-	hero.mesh = hero_mesh
-	hero.material_override = _material(GOLD, 0.25, 0.35)
+	var hero := _create_battle_unit(true, 7)
 	hero.name = "PreviewHero"
 	arena_root.add_child(hero)
 	battle_units.append(hero)
+
+func _create_battle_unit(is_hero: bool, index: int) -> Node3D:
+	var root := Node3D.new()
+	var packed_scene := load("res://assets/troop.glb") as PackedScene
+	if packed_scene != null:
+		var model := packed_scene.instantiate()
+		if model is Node3D:
+			root.add_child(model)
+			model.position = Vector3.ZERO
+			model.scale = Vector3.ONE * (0.56 if is_hero else 0.38)
+		else:
+			model.queue_free()
+			_add_procedural_soldier(root, is_hero, index)
+	else:
+		_add_procedural_soldier(root, is_hero, index)
+	return root
+
+func _add_procedural_soldier(root: Node3D, is_hero: bool, index: int) -> void:
+	var body := MeshInstance3D.new()
+	var capsule := CapsuleMesh.new()
+	capsule.radius = 0.17 if is_hero else 0.12
+	capsule.height = 0.68 if is_hero else 0.48
+	body.mesh = capsule
+	body.position.y = 0.42 if is_hero else 0.3
+	body.material_override = _material(GOLD if is_hero else (Color("#b8c6d4") if index % 2 == 0 else Color("#425d78")), 0.12, 0.25)
+	root.add_child(body)
+	var head := MeshInstance3D.new()
+	var sphere := SphereMesh.new()
+	sphere.radius = 0.12 if is_hero else 0.085
+	sphere.height = sphere.radius * 2.0
+	head.mesh = sphere
+	head.position.y = 0.82 if is_hero else 0.61
+	head.material_override = _material(Color("#d9b38c"), 0.0, 0.0)
+	root.add_child(head)
+	var weapon := MeshInstance3D.new()
+	var blade := BoxMesh.new()
+	blade.size = Vector3(0.045, 0.045, 0.58 if is_hero else 0.42)
+	weapon.mesh = blade
+	weapon.position = Vector3(0.2, 0.55 if is_hero else 0.4, -0.08)
+	weapon.rotation.x = 0.55
+	weapon.material_override = _material(Color("#dce5ec"), 0.7, 0.35)
+	root.add_child(weapon)
 
 func _send_preview_march() -> void:
 	if simulation_state.is_empty() or layout.get("objectives", []).is_empty():
