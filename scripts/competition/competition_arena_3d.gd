@@ -101,7 +101,7 @@ func _build_ui() -> void:
 	footer.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
 	footer.offset_left = 10
 	footer.offset_right = -10
-	footer.offset_top = -126
+	footer.offset_top = -150
 	footer.offset_bottom = -10
 	footer.add_theme_stylebox_override("panel", _panel_style(Color("#0b1929"), Color("#344a60")))
 	ui.add_child(footer)
@@ -118,7 +118,8 @@ func _build_ui() -> void:
 	simulation_status = Label.new()
 	simulation_status.text = "المسيرات: جاهزة للمعاينة"
 	simulation_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	simulation_status.add_theme_font_size_override("font_size", 13)
+	simulation_status.add_theme_font_size_override("font_size", 12)
+	simulation_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	simulation_status.add_theme_color_override("font_color", GOLD)
 	footer_content.add_child(simulation_status)
 	var action_row := HBoxContainer.new()
