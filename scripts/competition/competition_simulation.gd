@@ -125,6 +125,42 @@ static func advance(state: Dictionary, delta_seconds: float) -> Dictionary:
 	updated["capture"] = capture_state
 	return updated
 
+static func apply_combat_result(state: Dictionary, player_id: String, objective_id: String, result: Dictionary) -> Dictionary:
+	var updated := state.duplicate(true)
+	if not _valid_state(updated) or str(result.get("source", "")) != "local_preview" or bool(result.get("authoritative", true)):
+		return {}
+	var outcome := str(result.get("outcome", ""))
+	if outcome != "victory" and outcome != "defeat":
+		return {}
+	if bool(result.get("target_burns", false)) != (outcome == "victory"):
+		return {}
+	var pid := player_id.strip_edges()
+	var oid := objective_id.strip_edges()
+	var players: Array = updated.get("players", [])
+	var found := false
+	for i in range(players.size()):
+		var player: Dictionary = players[i]
+		if str(player.get("player_id", "")) != pid:
+			continue
+		var remaining := maxi(0, int(result.get("attacker_units_remaining", 0)))
+		player["units"] = remaining
+		if outcome == "defeat":
+			player["target_objective"] = ""
+			player["target_position"] = player.get("position", Vector2.ZERO)
+			player["marching"] = false
+		players[i] = player
+		found = true
+		break
+	if not found:
+		return {}
+	updated["players"] = players
+	if outcome == "victory":
+		var capture_state: Dictionary = Capture.set_owner(updated.get("capture", {}), oid, pid, 100.0)
+		if capture_state.is_empty():
+			return {}
+		updated["capture"] = capture_state
+	return updated
+
 static func player_snapshot(state: Dictionary, player_id: String) -> Dictionary:
 	if not _valid_state(state):
 		return {}
